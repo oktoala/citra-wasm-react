@@ -1,14 +1,9 @@
 import React from 'react';
-import { useEffect } from 'react';
 import './App.css';
 
 import Canvas from "./components/Canvas"
 
 const App = () => {
-
-  useEffect(() => {
-    
-  }, []);
 
   return (
     <div className="App">
