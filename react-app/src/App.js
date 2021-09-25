@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import './App.css';
 
-import Canvas from "./components/Canvas"
+import Main from "./components/Main"
 
 const App = () => {
 
@@ -19,7 +19,7 @@ const App = () => {
             <li><a href="https://github.com/silvia-odwyer/photon">GitHub</a></li>
           </ul>
         </nav>
-        <Canvas></Canvas>
+        <Main/>
       </header>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import img_src from './daisies.jpg';
+import img_src from '../img/daisies.jpg';
 
-const Canvas = () => {
+const Main = () => {
   const [loadedWasm, setLoadedWasm] = useState(false);
   const [wasm, setWasm] = useState(null);
   const [img, setImg] = useState(null);
@@ -10,9 +10,9 @@ const Canvas = () => {
   useEffect(() => {
     loadWasm();
 
-  }, 
-  // eslint-disable-next-line
-  [])
+  },
+    // eslint-disable-next-line
+    [])
 
   async function drawOriginalImage() {
     const img = new Image();
@@ -84,38 +84,41 @@ const Canvas = () => {
   return (
     <div className="default">
       <SideBar >
-        <h3 className="logo">Photon</h3>
-        <ul>
-          <h4>Channels</h4>
-          <li id="alter_red" onClick={() => alterChannel(0)}>Increase Red Channel</li>
-          <li id="alter_green" onClick={() => alterChannel(1)}>Increase Green Channel</li>
-          <li id="alter_blue" onClick={() => alterChannel(2)}>Increase Blue Channel</li>
-          <li id="alter_blue" onClick={effectPipeline}>Inc Channel + Threshold</li>
-        </ul>
+        <li id="alter_red" onClick={() => alterChannel(0)}>Increase Red Channel</li>
+        <li id="alter_green" onClick={() => alterChannel(1)}>Increase Green Channel</li>
+        <li id="alter_blue" onClick={() => alterChannel(2)}>Increase Blue Channel</li>
+        <li id="alter_blue" onClick={effectPipeline}>Inc Channel + Threshold</li>
       </SideBar>
-      <div className="main">
-        <div className="main_content">
-          <section className="content">
-            <h2>Image</h2>
-            <canvas ref={canvasRef} />
-          </section>
-          <section className="benchmarks">
-            <div id="time"></div>
-            <div id="code"></div>
-          </section>
-        </div>
-      </div>
+      <Canvas>
+        <canvas ref={canvasRef} />
+      </Canvas>
     </div>
   )
 }
 
 const SideBar = (props) => {
-
   return (
     <div className="sidebar">
-      {props.children}
+      <h3 className="logo">Photon</h3>
+      <ul>
+        <h4>Channels</h4>
+        {props.children}
+      </ul>
     </div>
   );
 }
 
-export default Canvas
+const Canvas = (props) => {
+  return (
+    <div className="main">
+      <div className="main_content">
+        <section className="content">
+          <h2>Image</h2>
+          {props.children}
+        </section>
+      </div>
+    </div>
+  )
+}
+
+export default Main;
