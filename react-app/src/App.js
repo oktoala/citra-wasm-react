@@ -1,20 +1,27 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
-import { SideBar, Canvas } from './components/Main';
+import Appbar from "./components/Appbar";
+import SideBar from './components/SideBar';
+import Canvas from './components/Canvas';
 import './App.css';
 import img_src from './img/daisies.jpg';
-import Appbar from "./components/Appbar";
 import Box from '@mui/material/Box';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 import createTheme from '@mui/material/styles/createTheme';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import TabContext from '@mui/lab/TabContext';
+import TabPanel from '@mui/lab/TabPanel';
 
 
 const App = () => {
   const [loadedWasm, setLoadedWasm] = useState(false);
   const [wasm, setWasm] = useState(null);
   const [img, setImg] = useState(null);
+  const [value, setValue] =useState('0');
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const canvasRef = useRef(null);
   useEffect(() => {
@@ -90,9 +97,6 @@ const App = () => {
     console.timeEnd("PHOTON_CONSTR");
   }
 
-
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
   const theme = createTheme({
     palette: {
       mode: 'dark',
@@ -103,13 +107,15 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
-        <Appbar />
-        <SideBar >
-          <li id="alter_red" onClick={() => alterChannel(0)}>Increase Red Channel</li>
-          <li id="alter_green" onClick={() => alterChannel(1)}>Increase Green Channel</li>
-          <li id="alter_blue" onClick={() => alterChannel(2)}>Increase Blue Channel</li>
-          <li id="alter_blue" onClick={effectPipeline}>Inc Channel + Threshold</li>
-        </SideBar>
+        <TabContext value={value}>
+          <Appbar onChange={handleChange} />
+          <SideBar >
+            <TabPanel value="0">Pallete</TabPanel>
+            <TabPanel value="1">Filter</TabPanel>
+            <TabPanel value="2">Histogram</TabPanel>
+          </SideBar>
+
+        </TabContext>
         <Canvas>
           <canvas ref={canvasRef} />
         </Canvas>
