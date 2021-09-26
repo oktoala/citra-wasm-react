@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Appbar from "./components/Appbar";
 import SideBar from './components/SideBar';
 import Canvas from './components/Canvas';
+import ColorSpace from './components/ColorSpace';
 import './App.css';
 import img_src from './img/daisies.jpg';
 import Box from '@mui/material/Box';
@@ -17,10 +18,10 @@ const App = () => {
   const [loadedWasm, setLoadedWasm] = useState(false);
   const [wasm, setWasm] = useState(null);
   const [img, setImg] = useState(null);
-  const [value, setValue] =useState('0');
+  const [tab, setTab] = useState("0");
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleTab = (event, newValue) => {
+    setTab(newValue);
   };
 
   const canvasRef = useRef(null);
@@ -107,14 +108,13 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
-        <TabContext value={value}>
-          <Appbar onChange={handleChange} />
+        <TabContext value={tab}>
+          <Appbar onChange={handleTab} />
           <SideBar >
-            <TabPanel value="0">Pallete</TabPanel>
+            <TabPanel value="0"> <ColorSpace/> </TabPanel>
             <TabPanel value="1">Filter</TabPanel>
             <TabPanel value="2">Histogram</TabPanel>
           </SideBar>
-
         </TabContext>
         <Canvas>
           <canvas ref={canvasRef} />

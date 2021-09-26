@@ -9,28 +9,25 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 
 
 const Appbar = (props) => {
-    
-    const drawerWidth = 240;
+
+    const drawerWidth = 360;
     return (
         <AppBar position="fixed" color="secondary" sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
         }}>
             <TabList onChange={props.onChange}>
-                <TabTip title="Color Space" icon={<PaletteIcon/>} value="0" />
-                <TabTip title="Filter" icon={<FilterIcon/>} value="1" />
-                <TabTip title="Histogram" icon={<EqualizerIcon/>} value="2" />
+                <Tooltip title="Color Space" value="0">
+                    <Tab label={<PaletteIcon />}  />
+                </Tooltip>
+                <Tooltip title="Filter" value="1">
+                    <Tab label={<FilterIcon />}  />
+                </Tooltip>
+                <Tooltip title="Histogram" value="2">
+                    <Tab label={<EqualizerIcon />}  />
+                </Tooltip>
             </TabList>
         </AppBar>
-    );
-}
-
-const TabTip = (props) => {
-
-    return (
-        <Tooltip title={props.title} value={props.value}>
-            <Tab label={props.icon} value={props.value}/>
-        </Tooltip>
     );
 }
 
