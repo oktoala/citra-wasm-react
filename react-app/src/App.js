@@ -111,7 +111,7 @@ const App = () => {
         <TabContext value={tab}>
           <Appbar onChange={handleTab} />
           <SideBar >
-            <TabPanel value="0"> <ColorSpace/> </TabPanel>
+            <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="0"> <ColorSpace/> </TabPanel>
             <TabPanel value="1">Filter</TabPanel>
             <TabPanel value="2">Histogram</TabPanel>
           </SideBar>
