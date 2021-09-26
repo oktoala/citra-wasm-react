@@ -1,4 +1,4 @@
-# Pengolahan Citra Tapi WASM
+# Tugas Pengolahan Citra Tapi WASM
 
 Aplikasi ini dibangun menggunakan Photon.
 
