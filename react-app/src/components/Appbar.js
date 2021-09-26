@@ -10,6 +10,7 @@ import PaletteIcon from '@mui/icons-material/Palette';
 import IconButton from '@mui/material/IconButton';
 import FilterIcon from '@mui/icons-material/Filter';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
+import Divider from '@mui/material/Divider';
 
 
 const Appbar = () => {
@@ -18,31 +19,24 @@ const Appbar = () => {
     function handleChange(event, newValue) {
         setValue(newValue);
     }
-
+    const drawerWidth = 240;
     return (
-        <div className="navbar">
-            <Box sx={{ flexgrow: 1 }}>
-                <AppBar position="static" color="secondary" >
-                    <Toolbar>
-                        <IconButton color="inherit">
-                            <PaletteIcon />
-                        </IconButton>
-                        <IconButton color="inherit">
-                            <FilterIcon />
-                        </IconButton>
-                        <IconButton color="inherit">
-                            <EqualizerIcon />
-                        </IconButton>
-                    </Toolbar>
-                </AppBar>
-            </Box>
-            <Box component="nav"
-                aria-label="mailbox folders">
-                    <Drawer variant="permanent" >
-                        <p>Hah</p>
-                    </Drawer>
-            </Box>
-        </div>
+        <AppBar position="fixed" color="secondary" sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+        }}>
+            <Toolbar>
+                <IconButton color="inherit">
+                    <PaletteIcon />
+                </IconButton>
+                <IconButton color="inherit">
+                    <FilterIcon />
+                </IconButton>
+                <IconButton color="inherit">
+                    <EqualizerIcon />
+                </IconButton>
+            </Toolbar>
+        </AppBar>
     );
 }
 

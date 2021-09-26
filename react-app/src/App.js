@@ -2,9 +2,11 @@ import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import img_src from './img/daisies.jpg';
+import Box from '@mui/material/Box';
 
 import Appbar from "./components/Appbar";
 import { SideBar, Canvas } from './components/Main';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const App = () => {
   const [loadedWasm, setLoadedWasm] = useState(false);
@@ -87,20 +89,19 @@ const App = () => {
 
 
   return (
-    <div className="App">
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
       <Appbar></Appbar>
-      <div className="default">
-        <SideBar >
-          <li id="alter_red" onClick={() => alterChannel(0)}>Increase Red Channel</li>
-          <li id="alter_green" onClick={() => alterChannel(1)}>Increase Green Channel</li>
-          <li id="alter_blue" onClick={() => alterChannel(2)}>Increase Blue Channel</li>
-          <li id="alter_blue" onClick={effectPipeline}>Inc Channel + Threshold</li>
-        </SideBar>
-        <Canvas>
-          <canvas ref={canvasRef} />
-        </Canvas>
-      </div>
-    </div>
+      <SideBar >
+        <li id="alter_red" onClick={() => alterChannel(0)}>Increase Red Channel</li>
+        <li id="alter_green" onClick={() => alterChannel(1)}>Increase Green Channel</li>
+        <li id="alter_blue" onClick={() => alterChannel(2)}>Increase Blue Channel</li>
+        <li id="alter_blue" onClick={effectPipeline}>Inc Channel + Threshold</li>
+      </SideBar>
+      <Canvas>
+        <canvas ref={canvasRef} />
+      </Canvas>
+    </Box>
   );
 };
 
