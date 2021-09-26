@@ -80,7 +80,6 @@ const Main = () => {
     console.timeEnd("PHOTON_CONSTR");
   }
 
-
   return (
     <div className="default">
       <SideBar >
@@ -99,7 +98,6 @@ const Main = () => {
 const SideBar = (props) => {
   return (
     <div className="sidebar">
-      <h3 className="logo">Photon</h3>
       <ul>
         <h4>Channels</h4>
         {props.children}
