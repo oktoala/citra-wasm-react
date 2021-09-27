@@ -9,10 +9,10 @@ Cara menjalankan:
 1. Clone repository ini
 
     ```bash
-    git clone
+    git clone https://github.com/oktoala/citra-wasm-react.git ~/citra-wasm-react
     ```
 
-2. Masuk ke folder repositori lalu masuk lagi ke folder `crate` dan jalankan `wasm-pack build`. Pastikan kalian sudah menginstall [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) melalui `cargo`.
+2. Masuk ke folder repositori yang sudah di clone lalu masuk lagi ke folder `crate` dan jalankan `wasm-pack build`. Pastikan kalian sudah menginstall [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) melalui `cargo`.
 
     ```bash
     cd citra-wasm-react/crate

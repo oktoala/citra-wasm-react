@@ -40,10 +40,19 @@ const ColorSpace = () => {
                 <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
                     onBlur={handleBlur} max={255} color='green' />
                 <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
-                    onBlur={handleBlur} max={255} color='blue' />
+                    onBlur={handleBlur} max={255} color='#005BFF' />
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>Hue Saturate Light</MyAccordion>
-            <MyAccordion expand={expand} colorspace="CMYK" onChange={handleAccoridon('CMYK')}>Cyan Magenta Yellow K</MyAccordion>
+            <MyAccordion expand={expand} colorspace="CMYK" onChange={handleAccoridon('CMYK')}>
+                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
+                    onBlur={handleBlur} max={255} color='cyan' />
+                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
+                    onBlur={handleBlur} max={255} color='magenta' />
+                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
+                    onBlur={handleBlur} max={255} color='yellow' />
+                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
+                    onBlur={handleBlur} max={255} color='white' />
+            </MyAccordion>
         </div>
     )
 }
@@ -71,7 +80,7 @@ const MySlider = (props) => {
                 <Slider sx={{ color: props.color, width: 255 }} max={props.max} value={typeof props.value === 'number' ? props.value : 0} onChange={props.onChangeSlider} />
             </Grid>
             <Grid item xs>
-                <Input  value={props.value} size="small" onChange={props.onChangeInput} onBlur={props.onBlur}
+                <Input value={props.value} size="small" onChange={props.onChangeInput} onBlur={props.onBlur}
                     inputProps={{ max: props.max, type: 'number' }} />
             </Grid>
 

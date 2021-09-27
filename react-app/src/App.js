@@ -1,11 +1,12 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
+// Componetn
 import Appbar from "./components/Appbar";
 import SideBar from './components/SideBar';
 import Canvas from './components/Canvas';
 import ColorSpace from './components/ColorSpace';
-import './App.css';
 import img_src from './img/daisies.jpg';
+// Material UI
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import createTheme from '@mui/material/styles/createTheme';
