@@ -11,9 +11,36 @@ import Input from '@mui/material/Input';
 const ColorSpace = () => {
     const [expand, setExpand] = useState(false);
     const [value, setValue] = useState(10);
+    const [rgb, setRgb] = useState({
+        'red': {
+            'name': 'red',
+            'color': '#ff0000',
+            'value': 0,
+        },
+        'green': {
+            'name': 'green',
+            'color': '#00ff00',
+            'value': 0
+        },
+        'blue': {
+            'name': 'blue',
+            'color': '#005BFF',
+            'value': 0
+        },
+    });
 
-    const handleSliderChange = (event, newValue) => {
-        setValue(newValue);
+    const handleSliderChange = (event, newValue, activeThumb) => {
+        setRgb(prev => ({
+            'red': {
+                ...prev.red.name,
+                ...prev.red.color,
+                'value': event.target.value,
+            },
+            ...prev.green,
+            ...prev.blue,
+        })
+            
+        )
     };
 
     const handleInputChange = (event) => {
@@ -35,23 +62,14 @@ const ColorSpace = () => {
     return (
         <div>
             <MyAccordion expand={expand} colorspace="RGB" onChange={handleAccoridon('RGB')}>
-                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
-                    onBlur={handleBlur} max={255} color='red' />
-                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
-                    onBlur={handleBlur} max={255} color='green' />
-                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
-                    onBlur={handleBlur} max={255} color='#005BFF' />
+                {Object.keys(rgb).map((key, index) => {
+                    return (<MySlider key={index} name={rgb[key].name} id={index.toString()} value={rgb[key].value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
+                        onBlur={handleBlur} max={255} color={rgb[key].color} />);
+                })}
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>Hue Saturate Light</MyAccordion>
             <MyAccordion expand={expand} colorspace="CMYK" onChange={handleAccoridon('CMYK')}>
-                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
-                    onBlur={handleBlur} max={255} color='cyan' />
-                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
-                    onBlur={handleBlur} max={255} color='magenta' />
-                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
-                    onBlur={handleBlur} max={255} color='yellow' />
-                <MySlider value={value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
-                    onBlur={handleBlur} max={255} color='white' />
+                
             </MyAccordion>
         </div>
     )
@@ -75,9 +93,9 @@ const MyAccordion = (props) => {
 const MySlider = (props) => {
 
     return (
-        <Grid container spacing={3} alignItems="center">
+        <Grid key={props.id} id={props.id} container spacing={3} alignItems="center">
             <Grid item xs>
-                <Slider sx={{ color: props.color, width: 255 }} max={props.max} value={typeof props.value === 'number' ? props.value : 0} onChange={props.onChangeSlider} />
+                <Slider aria-label="red" sx={{ color: props.color, width: 255 }} max={props.max} value={typeof props.value === 'number' ? props.value : 0} onChange={props.onChangeSlider} />
             </Grid>
             <Grid item xs>
                 <Input value={props.value} size="small" onChange={props.onChangeInput} onBlur={props.onBlur}
