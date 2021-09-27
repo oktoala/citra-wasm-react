@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
-import TabList from '@mui/lab/TabList';
+import Toolbar from '@mui/material/Toolbar';
 
 const SideBar = (props) => {
     const drawerWidth = 360;
@@ -19,7 +19,7 @@ const SideBar = (props) => {
 
                 }}
                 open>
-                <TabList />
+                    <Toolbar variant="dense" />
                 <Divider />
                 {props.children}
             </Drawer>

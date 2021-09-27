@@ -6,7 +6,7 @@ export const Canvas = (props) => {
 
     return (
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            <Toolbar />
+            <Toolbar variant="dense" />
             {props.children}
         </Box>
     )
