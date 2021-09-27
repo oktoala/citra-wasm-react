@@ -29,24 +29,45 @@ const ColorSpace = () => {
         },
     });
 
-    const handleSliderChange = (event, newValue, activeThumb) => {
+    const handleRGB = (event, newValue, activeThumb) => {
+        const name = event.target.name;
         setRgb(prev => ({
-            'red': {
-                ...prev.red.name,
-                ...prev.red.color,
-                'value': event.target.value,
-            },
-            ...prev.green,
-            ...prev.blue,
-        })
-            
-        )
+            'red': name === rgb.red.name ? {
+                ...prev.red,
+                'value': newValue,
+            } : { ...prev.red },
+            'green': name === rgb.green.name ? {
+                ...prev.green,
+                'value': newValue,
+            } : { ...prev.green },
+            'blue': name === rgb.blue.name ? {
+                ...prev.blue,
+                'value': newValue,
+            } : { ...prev.blue }
+        }));
     };
-
+    
     const handleInputChange = (event) => {
-        setValue(event.target.value === '' ? '' : Number(event.target.value));
+        // console.log(event.target.value);
+        // setValue(event.target.value === '' ? '' : Number(event.target.value));
+        const name = `${event.target.name}`;
+        setRgb(prev => ({
+            'red': name === rgb.red.name ? {
+                ...prev.red,
+                'value': event.target.value,
+            } : { ...prev.red },
+            'green': name === rgb.green.name ? {
+                ...prev.green,
+                'value': event.target.value,
+            } : { ...prev.green },
+            'blue': name === rgb.blue.name ? {
+                ...prev.blue,
+                'value': event.target.value,
+            } : { ...prev.blue }
+        }));
+        console.log(event.target.value);
     };
-
+    
     const handleBlur = () => {
         if (value < 0) {
             setValue(0);
@@ -63,13 +84,15 @@ const ColorSpace = () => {
         <div>
             <MyAccordion expand={expand} colorspace="RGB" onChange={handleAccoridon('RGB')}>
                 {Object.keys(rgb).map((key, index) => {
-                    return (<MySlider key={index} name={rgb[key].name} id={index.toString()} value={rgb[key].value} onChangeSlider={handleSliderChange} onChangeInput={handleInputChange}
+                    return (<MySlider key={index} name={rgb[key].name} id={index.toString()} value={rgb[key].value}
+                        onChangeSlider={handleRGB} onChangeInput={handleInputChange}
                         onBlur={handleBlur} max={255} color={rgb[key].color} />);
                 })}
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>Hue Saturate Light</MyAccordion>
             <MyAccordion expand={expand} colorspace="CMYK" onChange={handleAccoridon('CMYK')}>
-                
+                <Slider data-index={0} onChange={(event, value, activeThumb) => console.log(activeThumb)} ></Slider>
+                <Slider tabIndex={0} onChange={(event, value, activeThumb) => console.log(activeThumb)} ></Slider>
             </MyAccordion>
         </div>
     )
@@ -95,10 +118,11 @@ const MySlider = (props) => {
     return (
         <Grid key={props.id} id={props.id} container spacing={3} alignItems="center">
             <Grid item xs>
-                <Slider aria-label="red" sx={{ color: props.color, width: 255 }} max={props.max} value={typeof props.value === 'number' ? props.value : 0} onChange={props.onChangeSlider} />
+                <Slider name={props.name} sx={{ color: props.color, width: 255 }} max={props.max}
+                    value={props.value} onChange={props.onChangeSlider} />
             </Grid>
             <Grid item xs>
-                <Input value={props.value} size="small" onChange={props.onChangeInput} onBlur={props.onBlur}
+                <Input name={`${props.name}`} value={props.value} size="small" onChange={props.onChangeInput} onBlur={props.onBlur}
                     inputProps={{ max: props.max, type: 'number' }} />
             </Grid>
 
