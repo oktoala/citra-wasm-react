@@ -39,7 +39,7 @@ export async function loadWasm(canvasRef) {
     state.canvasRef = canvasRef;
 }
 
-export  const alterChannel = async (channel_index) => {
+export const alterChannel = async (channel_index) => {
     const canvas1 = state.canvasRef.current;
     const ctx = canvas1.getContext("2d");
 
@@ -50,6 +50,21 @@ export  const alterChannel = async (channel_index) => {
     let image = photon.open_image(canvas1, ctx);
 
     photon.alter_channel(image, channel_index, 255);
+
+    photon.putImageData(canvas1, ctx, image);
+}
+
+export const rgbChannel = async (r, b, g) => {
+    const canvas1 = state.canvasRef.current;
+    const ctx = canvas1.getContext("2d");
+
+    ctx.drawImage(state.img, 0, 0);
+
+    let photon = state.wasm;
+
+    let image = photon.open_image(canvas1, ctx);
+
+    photon.alter_channels(image, r, g, b);
 
     photon.putImageData(canvas1, ctx, image);
 }

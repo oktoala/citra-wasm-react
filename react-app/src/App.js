@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
-// Componetn
+// Component
 import Appbar from "./components/Appbar";
 import SideBar from './components/SideBar';
 import Canvas from './components/Canvas';
