@@ -7,26 +7,25 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Grid from '@mui/material/Grid';
 import Slider from '@mui/material/Slider';
 import Input from '@mui/material/Input';
-import { rgbChannel } from '../function/wasm';
+import { rgbChannel, rgbValue } from '../function/wasm';
 
 const ColorSpace = () => {
     const [expand, setExpand] = useState(false);
-    // const [value, setValue] = useState(10);
     const [rgb, setRgb] = useState({
         'red': {
             'name': 'red',
             'color': '#ff0000',
-            'value': 0,
+            'value': rgbValue.red,
         },
         'green': {
             'name': 'green',
             'color': '#00ff00',
-            'value': 0
+            'value': rgbValue.green
         },
         'blue': {
             'name': 'blue',
             'color': '#005BFF',
-            'value': 0
+            'value': rgbValue.blue
         },
     });
 
@@ -34,8 +33,13 @@ const ColorSpace = () => {
 
     useEffect(() => {
         if (didMount.current) {
+            // Ini akan dijalankan jika state rgb berubah
             rgbChannel(rgb["red"].value, rgb["green"].value, rgb["blue"].value);
+            rgbValue.red = rgb["red"].value;
+            rgbValue.green = rgb["green"].value;
+            rgbValue.blue = rgb["blue"].value;
         } else {
+            // Ini akan di jalankan pertama
             didMount.current = true;
         }
     }, [rgb])
