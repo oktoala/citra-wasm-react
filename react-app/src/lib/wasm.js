@@ -15,9 +15,55 @@ export const rgbValue = {
     'blue': 0,
 };
 
+// Buat filter
 export const filterValue = {
-    'index' : 0,
+    'index': 0,
     'filter': 'none'
+}
+
+// Buat histogram
+export const pixel = {
+    'red': {
+        frequency: [],
+        maxFrequency: 0,
+    },
+    'green': {
+        frequency: [],
+        maxFrequency: 0,
+    },
+    'blue': {
+        frequency: [],
+        maxFrequency: 0,
+    },
+}
+
+async function getPixels(canvas, ctx) {
+    const photon = state.wasm;
+
+    const image = photon.get_image_data(canvas, ctx);
+
+    const data = image.data;
+
+    Object.keys(pixel).map((value, index) => {
+        console.log(`index: ${index}, value: ${value}, length: ${data.length}`);
+        let maxFrequency = 0
+        const colourFrequencies = Array(256).fill(0);
+
+
+        for (let i = index, len = data.length; i < len; i += 4) {
+            colourFrequencies[data[i]]++;
+            if (colourFrequencies[data[i]] > maxFrequency) {
+                maxFrequency++;
+            }
+        }
+        pixel[value].frequency = colourFrequencies;
+        pixel[value].maxFrequency = maxFrequency;
+
+    });
+
+    console.log(pixel.red.frequency);
+
+    return pixel;
 }
 
 async function drawOriginalImage(canvasRef) {
@@ -54,14 +100,14 @@ export async function loadWasm(canvasRef) {
 const canvasValue = () => {
     const canvas1 = state.canvasRef.current;
     const ctx = canvas1.getContext("2d");
-    
+
     ctx.drawImage(state.img, 0, 0);
-    
+
     let photon = state.wasm;
-    
+
     let image = photon.open_image(canvas1, ctx);
 
-    
+
     return {
         'canvas1': canvas1,
         'ctx': ctx,
@@ -73,47 +119,24 @@ const canvasValue = () => {
 
 export const filter = async (filterValue) => {
     const cvs = canvasValue();
-    
+
     cvs.photon.filter(cvs.image, filterValue);
-    
+
     cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
 }
 
-export const rgbChannel = async (r, b, g) => {
-    
+export const rgbChannel = async (r, g, b) => {
+
     const cvs = canvasValue();
-    
+
     cvs.photon.alter_channels(cvs.image, r, g, b);
-    
+
     cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
-    // console.log(cvs.photon.get_image_data(cvs.canvas1, cvs.ctx));
+
+    getPixels(cvs.canvas1, cvs.ctx);
 }
 
-export const base64 = async () => {
-    const cvs = canvasValue();
 
-    console.log(cvs.image);
-}
 
-export async function effectPipeline() {
-    const canvas1 = state.canvasRef.current;
-    const ctx = canvas1.getContext("2d");
-
-    ctx.drawImage(state.img, 0, 0);
-
-    let photon = state.wasm;
-    let phtimg = photon.open_image(canvas1, ctx);
-
-    console.time("PHOTON_WITH_RAWPIX");
-    photon.alter_channel(phtimg, 2, 70);
-    photon.grayscale(phtimg);
-    console.timeEnd("PHOTON_WITH_RAWPIX");
-
-    photon.putImageData(canvas1, ctx, phtimg);
-
-    console.time("PHOTON_CONSTR");
-    // photon.canvas_wasm_only(canvas1, ctx);
-    console.timeEnd("PHOTON_CONSTR");
-}
 
 

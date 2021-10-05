@@ -6,6 +6,7 @@ import SideBar from './components/SideBar';
 import Canvas from './components/Canvas';
 import ColorSpace from './components/ColorSpace';
 import Filter from './components/Filter';
+import Histogram from './components/Histogram';
 // Material UI
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -50,9 +51,12 @@ const App = () => {
               <ColorSpace />
             </TabPanel >
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="1">
-              <Filter/>
+              <Filter />
             </TabPanel>
-            <TabPanel value="2">histogram</TabPanel>
+            <TabPanel sx={{ paddingRight: '0',  }} value="2">
+              i
+              <Histogram />
+            </TabPanel>
           </SideBar>
         </TabContext>
         <Canvas>

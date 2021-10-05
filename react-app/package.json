@@ -10,6 +10,7 @@
     "@mui/material": "^5.0.1",
     "@silvia-odwyer/photon": "^0.1.0",
     "@silvia-odwyer/photon-node": "^0.1.0",
+    "d3": "^7.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
