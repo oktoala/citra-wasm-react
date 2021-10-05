@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
-import { filter, filterValue } from '../function/wasm';
+import { filter, filterValue } from '../lib/wasm';
 
 const Filter = () => {
 
@@ -25,7 +24,7 @@ const Filter = () => {
         <List>
             {listFilter.map((value, indexList) => {
                 return (
-                    <ListItemButton selected={index === indexList} onClick={event => handleList(event, indexList, value)}>
+                    <ListItemButton key={indexList} selected={index === indexList} onClick={event => handleList(event, indexList, value)}>
                         <ListItemText primary={value.replace(/^\w/, (c) => c.toUpperCase())} />
                     </ListItemButton>
                 );

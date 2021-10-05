@@ -7,7 +7,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Grid from '@mui/material/Grid';
 import Slider from '@mui/material/Slider';
 import Input from '@mui/material/Input';
-import { rgbChannel, rgbValue } from '../function/wasm';
+import { rgbChannel, rgbValue } from '../lib/wasm';
 
 const ColorSpace = () => {
     const [expand, setExpand] = useState(false);

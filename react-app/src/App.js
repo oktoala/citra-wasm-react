@@ -13,7 +13,7 @@ import createTheme from '@mui/material/styles/createTheme';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
-import { loadWasm, effectPipeline, alterChannel } from './function/wasm';
+import { loadWasm } from './lib/wasm';
 
 
 
@@ -52,7 +52,7 @@ const App = () => {
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="1">
               <Filter/>
             </TabPanel>
-            <TabPanel value="2">Histogram</TabPanel>
+            <TabPanel value="2">histogram</TabPanel>
           </SideBar>
         </TabContext>
         <Canvas>
