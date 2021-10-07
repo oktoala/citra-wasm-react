@@ -54,7 +54,6 @@ const App = () => {
               <Filter />
             </TabPanel>
             <TabPanel sx={{ paddingRight: '0',  }} value="2">
-              i
               <Histogram />
             </TabPanel>
           </SideBar>

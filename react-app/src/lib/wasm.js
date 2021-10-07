@@ -58,6 +58,7 @@ async function getPixels(canvas, ctx) {
         }
         pixel[value].frequency = colourFrequencies;
         pixel[value].maxFrequency = maxFrequency;
+        return null;
 
     });
 
