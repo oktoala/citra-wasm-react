@@ -34,6 +34,10 @@ export const pixel = {
     },
 }
 
+export const bins = {
+    bin: 8
+}
+
 async function getPixels(canvas, ctx) {
     const photon = state.wasm;
 
@@ -42,10 +46,8 @@ async function getPixels(canvas, ctx) {
     const data = image.data;
 
     const arrayLength = data.length / 3;
-    console.log(arrayLength);
 
     Object.keys(pixel).map((value, index) => {
-        console.log(`index: ${index}, value: ${value}, length: ${data.length}`);
         let maxFrequency = 0;
         const colourFrequencies = Array(arrayLength).fill(0);
 
@@ -57,8 +59,6 @@ async function getPixels(canvas, ctx) {
         return null;
 
     });
-
-    console.log(pixel.red.frequency);
 
     return pixel;
 }
