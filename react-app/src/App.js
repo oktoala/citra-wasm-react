@@ -14,6 +14,7 @@ import createTheme from '@mui/material/styles/createTheme';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
+import darkScrollbar from '@mui/material/darkScrollbar';
 import { loadWasm } from './lib/wasm';
 
 
@@ -38,7 +39,16 @@ const App = () => {
     palette: {
       mode: 'dark',
     },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: darkScrollbar(),
+        }
+      }
+    }
+
   });
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,7 +63,7 @@ const App = () => {
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="1">
               <Filter />
             </TabPanel>
-            <TabPanel sx={{ paddingRight: '0',  }} value="2">
+            <TabPanel sx={{ paddingRight: '0', }} value="2">
               <Histogram />
             </TabPanel>
           </SideBar>

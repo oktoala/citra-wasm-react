@@ -35,7 +35,8 @@ export const pixel = {
 }
 
 export const bins = {
-    bin: 8
+    bin: 8,
+    current: 'red',
 }
 
 async function getPixels(canvas, ctx) {
@@ -44,8 +45,10 @@ async function getPixels(canvas, ctx) {
     const image = photon.get_image_data(canvas, ctx);
 
     const data = image.data;
+    console.log(data.length);
 
-    const arrayLength = data.length / 3;
+    const arrayLength = data.length / 4;
+
 
     Object.keys(pixel).map((value, index) => {
         let maxFrequency = 0;
@@ -118,9 +121,19 @@ const canvasValue = () => {
 export const filter = async (filterValue) => {
     const cvs = canvasValue();
 
-    cvs.photon.filter(cvs.image, filterValue);
+    if (filterValue === "none") {
+        cvs.photon.alter_channels(cvs.image, rgbValue.red, rgbValue.green, rgbValue.blue);
+        bins.current = 'red';
+    } else if (filterValue === "grayscale") {
+        cvs.photon.grayscale(cvs.image);
+        bins.current = 'grey';
+    } else {
+        cvs.photon.filter(cvs.image, filterValue);
+        bins.current = 'red';
+    }
 
     cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
+    getPixels(cvs.canvas1, cvs.ctx);
 }
 
 export const rgbChannel = async (r, g, b) => {

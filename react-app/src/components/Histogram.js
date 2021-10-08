@@ -2,23 +2,72 @@ import React, { useState, useRef, useEffect } from 'react';
 import * as d3 from "d3";
 import { pixel, bins } from '../lib/wasm';
 import Input from '@mui/material/Input';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 const Histogram = () => {
 
-    const [data] = useState(pixel.green.frequency);
+    const [data, setData] = useState(pixel.red.frequency);
     const [inputValue, setInputValue] = useState(bins.bin);
+    const [currentColor, setCurrentColor] = useState(bins.current);
     const [svgValue, setSvgValue] = useState({ svg: null, x: null, y: null, yAxis: null });
-    const margin = { top: 10, right: 30, bottom: 30, left: 40 };
+    const margin = { top: 10, right: 30, bottom: 30, left: 50 };
     const width = 300 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
     const svgref = useRef();
     const inputRef = useRef();
 
+    const didMount = React.useRef(false);
+
+    useEffect(() => {
+        if (didMount.current) {
+            update(svgValue.svg, svgValue.x, svgValue.y, svgValue.yAxis, bins.bin);
+        } else {
+            didMount.current = true;
+        }
+    },
+        // eslint-disable-next-line
+        [data, currentColor]);
+
+    const [color, setColor] = useState(currentColor !== 'grey' ? [
+        { value: 'red' },
+        { value: 'green' },
+        { value: 'blue' },
+    ] : [{ value: 'grey' }]);
+
+    function handleRadio(event) {
+        const value = event.target.value;
+
+        if (value === "grey") {
+            setCurrentColor('gray');
+            setColor([{ value: 'grey' }])
+            setData(pixel['red'].frequency);
+        } else {
+            setColor([
+                { value: 'red' },
+                { value: 'green' },
+                { value: 'blue' },
+            ])
+            setCurrentColor(value);
+            setData(pixel[value].frequency);
+        }
+    }
+
+    function changeBin(event) {
+        const nBin = event.target.value;
+
+        update(svgValue.svg, svgValue.x, svgValue.y, svgValue.yAxis, nBin);
+        setInputValue(nBin);
+        bins.bin = nBin;
+    }
     function update(svg, x, y, yAxis, nBin) {
 
         const [min, max] = d3.extent(data);
-        const threshold = d3.range(min, max, (max-min)/nBin);
-        
+        const threshold = d3.range(min, max, (max - min) / nBin);
+
         // set the parameters for the histogram
         const histogram = d3.bin()
             .value(function (d) { return d; })   // I need to give the vector of value
@@ -48,18 +97,10 @@ const Histogram = () => {
             .attr("transform", function (d) { return `translate(${x(d.x0)}, ${y(d.length)})` })
             .attr("width", function (d) { return x(d.x1) - x(d.x0) - 1; })
             .attr("height", function (d) { return height - y(d.length); })
-            .style("fill", "#ff0000");
+            .style("fill", currentColor);
 
         console.log("Hahah");
 
-    }
-
-    function changeBin(event) {
-        const nBin = event.target.value;
-
-        update(svgValue.svg, svgValue.x, svgValue.y, svgValue.yAxis, nBin);
-        setInputValue(nBin);
-        bins.bin = nBin;
     }
 
     const drawSvg = () => {
@@ -87,14 +128,31 @@ const Histogram = () => {
 
     useEffect(() => {
         drawSvg();
-    }, []);
+    },
+        // eslint-disable-next-line
+        []);
 
     return (
         <div >
+            <RadioButton color={color} onChange={handleRadio} currentColor={currentColor} />
             <div className="svg" ref={svgref}></div>
             <Input type="number" ref={inputRef} value={inputValue} onChange={changeBin} max="256"></Input>
         </div>
     );
+}
+
+const RadioButton = (props) => {
+
+    return (
+        <FormControl component="fieldset">
+            <FormLabel component="legend">Histogram Colour</FormLabel>
+            <RadioGroup onChange={props.onChange} value={props.currentColor} row aria-label="colour" name="radio-color">
+                {props.color.map(v => {
+                    return (<FormControlLabel value={v.value} label={v.value.replace(/^\w/, (c) => c.toUpperCase())} control={<Radio size="small" />} />);
+                })}
+            </RadioGroup>
+        </FormControl>
+    )
 }
 
 export default Histogram;
