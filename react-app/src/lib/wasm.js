@@ -145,6 +145,7 @@ export const rgbChannel = async (r, g, b) => {
     cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
 
     getPixels(cvs.canvas1, cvs.ctx);
+    bins.current = 'red'
 }
 
 
