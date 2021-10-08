@@ -25,15 +25,12 @@ export const filterValue = {
 export const pixel = {
     'red': {
         frequency: [],
-        maxFrequency: 0,
     },
     'green': {
         frequency: [],
-        maxFrequency: 0,
     },
     'blue': {
         frequency: [],
-        maxFrequency: 0,
     },
 }
 
@@ -44,20 +41,19 @@ async function getPixels(canvas, ctx) {
 
     const data = image.data;
 
+    const arrayLength = data.length / 3;
+    console.log(arrayLength);
+
     Object.keys(pixel).map((value, index) => {
         console.log(`index: ${index}, value: ${value}, length: ${data.length}`);
-        let maxFrequency = 0
-        const colourFrequencies = Array(256).fill(0);
-
+        let maxFrequency = 0;
+        const colourFrequencies = Array(arrayLength).fill(0);
 
         for (let i = index, len = data.length; i < len; i += 4) {
-            colourFrequencies[data[i]]++;
-            if (colourFrequencies[data[i]] > maxFrequency) {
-                maxFrequency++;
-            }
+            colourFrequencies[maxFrequency] = data[i];
+            maxFrequency++;
         }
         pixel[value].frequency = colourFrequencies;
-        pixel[value].maxFrequency = maxFrequency;
         return null;
 
     });
@@ -78,6 +74,7 @@ async function drawOriginalImage(canvasRef) {
         const ctx = canvas.getContext("2d");
 
         ctx.drawImage(state.img, 0, 0);
+        getPixels(canvas, ctx);
     }
 
     img.src = img_src;
