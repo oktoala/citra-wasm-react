@@ -39,20 +39,18 @@ export const bins = {
     current: 'red',
 }
 
+export const appBarWidth = 490;
+
 async function getPixels(canvas, ctx) {
     const photon = state.wasm;
 
     const image = photon.get_image_data(canvas, ctx);
 
     const data = image.data;
-    console.log(data.length);
-
-    const arrayLength = data.length / 4;
-
 
     Object.keys(pixel).map((value, index) => {
         let maxFrequency = 0;
-        const colourFrequencies = Array(arrayLength).fill(0);
+        const colourFrequencies = Array([]).fill(0);
 
         for (let i = index, len = data.length; i < len; i += 4) {
             colourFrequencies[maxFrequency] = data[i];
@@ -62,6 +60,9 @@ async function getPixels(canvas, ctx) {
         return null;
 
     });
+
+    console.log(pixel['red'].frequency.length);
+    console.log(pixel['green'].frequency.length);
 
     return pixel;
 }
@@ -117,7 +118,7 @@ const canvasValue = () => {
     };
 }
 
-
+// ! Custom Function
 export const filter = async (filterValue) => {
     const cvs = canvasValue();
 
@@ -143,10 +144,19 @@ export const rgbChannel = async (r, g, b) => {
     cvs.photon.alter_channels(cvs.image, r, g, b);
 
     cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
-
+    
     getPixels(cvs.canvas1, cvs.ctx);
     bins.current = 'red'
 }
+
+export const hslChannel = async () => {
+    const cvs = canvasValue();
+    
+    cvs.photon.hsl(cvs.image, "saturate", 0.9);
+    cvs.photon.hsl(cvs.image, "shift_hue", 0.9);
+    cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
+}
+
 
 
 

@@ -15,7 +15,7 @@ const Histogram = () => {
     const [currentColor, setCurrentColor] = useState(bins.current);
     const [svgValue, setSvgValue] = useState({ svg: null, x: null, y: null, yAxis: null });
     const margin = { top: 10, right: 30, bottom: 30, left: 50 };
-    const width = 300 - margin.left - margin.right;
+    const width = 460 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
     const svgref = useRef();
     const inputRef = useRef();
@@ -134,7 +134,7 @@ const Histogram = () => {
 
     return (
         <div >
-            <RadioButton color={color} onChange={handleRadio} currentColor={currentColor} />
+            <RadioButton key="radio" color={color} onChange={handleRadio} currentColor={currentColor} />
             <div className="svg" ref={svgref}></div>
             <Input type="number" ref={inputRef} value={inputValue} onChange={changeBin} max="256"></Input>
         </div>
@@ -144,11 +144,11 @@ const Histogram = () => {
 const RadioButton = (props) => {
 
     return (
-        <FormControl component="fieldset">
+        <FormControl  component="fieldset">
             <FormLabel component="legend">Histogram Colour</FormLabel>
             <RadioGroup onChange={props.onChange} value={props.currentColor} row aria-label="colour" name="radio-color">
                 {props.color.map(v => {
-                    return (<FormControlLabel value={v.value} label={v.value.replace(/^\w/, (c) => c.toUpperCase())} control={<Radio size="small" />} />);
+                    return (<FormControlLabel  value={v.value} label={(v.value === 'grey' ? `${v.value}scale` : v.value).replace(/^\w/, (c) => c.toUpperCase())} control={<Radio key={props.value} size="small" />} />);
                 })}
             </RadioGroup>
         </FormControl>

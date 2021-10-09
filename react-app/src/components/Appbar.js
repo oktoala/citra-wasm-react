@@ -10,10 +10,11 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Button from '@mui/material/Button';
+import {appBarWidth} from '../lib/wasm';
 
 const Appbar = (props) => {
 
-    const drawerWidth = 360;
+    const drawerWidth = appBarWidth;
     return (
         <AppBar position="fixed" color="secondary" sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },

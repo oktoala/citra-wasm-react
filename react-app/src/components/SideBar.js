@@ -3,9 +3,10 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import Toolbar from '@mui/material/Toolbar';
+import {appBarWidth} from '../lib/wasm';
 
 const SideBar = (props) => {
-    const drawerWidth = 360;
+    const drawerWidth = appBarWidth;
 
     return (
         <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}

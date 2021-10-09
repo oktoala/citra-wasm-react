@@ -7,7 +7,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Grid from '@mui/material/Grid';
 import Slider from '@mui/material/Slider';
 import Input from '@mui/material/Input';
-import { rgbChannel, rgbValue } from '../lib/wasm';
+import { rgbChannel, hslChannel, rgbValue } from '../lib/wasm';
 
 const ColorSpace = () => {
     const [expand, setExpand] = useState(false);
@@ -42,7 +42,7 @@ const ColorSpace = () => {
             // Ini akan di jalankan pertama
             didMount.current = true;
         }
-    }, [rgb])
+    }, [rgb]);
 
     function handleRGB(name, newValue) {
         setRgb(prev => ({
@@ -99,7 +99,9 @@ const ColorSpace = () => {
                         onBlur={handleBlur} max={255} color={rgb[key].color} />);
                 })}
             </MyAccordion>
-            <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>Hue Saturate Light</MyAccordion>
+            <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>
+                <button onClick={hslChannel}>Klik aku</button>
+            </MyAccordion>
             <MyAccordion expand={expand} colorspace="CMYK" onChange={handleAccoridon('CMYK')}>
                 <Slider data-index={0} onChange={(event, value, activeThumb) => console.log(activeThumb)} ></Slider>
                 <Slider tabIndex={0} onChange={(event, value, activeThumb) => console.log(activeThumb)} ></Slider>
@@ -128,7 +130,7 @@ const MySlider = (props) => {
     return (
         <Grid key={props.id} id={props.id} container spacing={3} alignItems="center">
             <Grid item xs>
-                <Slider name={props.name} sx={{ color: props.color, width: 255 }} max={props.max}
+                <Slider name={props.name} sx={{ color: props.color, width: 360 }} max={props.max}
                     value={props.value} onChange={props.onChangeSlider} />
             </Grid>
             <Grid item xs>
