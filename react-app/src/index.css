@@ -17,6 +17,16 @@ code {
   padding-left: 0 !important;
 }
 
+/* Slider */
+.hue span .MuiSlider-rail {
+  background-image: linear-gradient(to right, red, yellow, green, cyan, blue, magenta, red);
+  opacity: 1;
+}
+
+.hue span .MuiSlider-track{
+  color: transparent;
+}
+
 @media (min-width: 600px) {
   .css-1774sld-MuiToolbar-root {
     padding-left: 0 !important;

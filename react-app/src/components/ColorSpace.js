@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { rgbChannel, hslChannel, rgbValue } from '../lib/wasm';
-import { MyAccordion, MySlider } from './ColorSpacesComponent';
+import { rgbChannel, hslChannel, rgbValue, hslValue } from '../lib/wasm';
+import { HueSlider, MyAccordion, MySlider } from './ColorSpacesComponent';
 
 const ColorSpace = () => {
     const [expand, setExpand] = useState(false);
@@ -23,6 +23,24 @@ const ColorSpace = () => {
         },
     });
 
+    const [hsl, setHsl] = useState({
+        'hue': {
+            'name': 'hue',
+            'color': 'white',
+            'value': hslValue.hue,
+        },
+        'saturate': {
+            'name': 'saturate',
+            'color': '#4f4f4f',
+            'value': hslValue.saturate,
+        },
+        'lightness': {
+            'name': 'lightness',
+            'color': 'white',
+            'value': hslValue.lightness,
+        }
+    });
+
     const didMount = React.useRef(false);
 
     useEffect(() => {
@@ -33,34 +51,62 @@ const ColorSpace = () => {
             rgbValue.green = rgb["green"].value;
             rgbValue.blue = rgb["blue"].value;
         } else {
+        }
+    }, [rgb]);
+    
+    useEffect(() => {
+        if (didMount.current) {
+            console.log(hsl);
+            hslChannel(hsl.hue.value/360, hsl.saturate.value/100, hsl.lightness.value/100);
+            hslValue.hue = hsl.hue.value;
+            hslValue.saturate = hsl.saturate.value;
+            hslValue.lightness = hsl.lightness.value;
+        } else {
             // Ini akan di jalankan pertama
             didMount.current = true;
         }
-    }, [rgb]);
+        
+    }, [hsl])
 
-    function handleRGB(name, newValue) {
-        setRgb(prev => ({
-            'red': name === rgb.red.name ? {
-                ...prev.red,
-                'value': newValue,
-            } : { ...prev.red },
-            'green': name === rgb.green.name ? {
-                ...prev.green,
-                'value': newValue,
-            } : { ...prev.green },
-            'blue': name === rgb.blue.name ? {
-                ...prev.blue,
-                'value': newValue,
-            } : { ...prev.blue }
-        }));
+    function handleState(name, newValue) {
+
+        if (panel === 'RGB' && expand) {
+            setRgb(prev => ({
+                'red': name === rgb.red.name ? {
+                    ...prev.red,
+                    'value': newValue,
+                } : { ...prev.red },
+                'green': name === rgb.green.name ? {
+                    ...prev.green,
+                    'value': newValue,
+                } : { ...prev.green },
+                'blue': name === rgb.blue.name ? {
+                    ...prev.blue,
+                    'value': newValue,
+                } : { ...prev.blue }
+            }));
+        } else if (panel === 'HSL' && expand) {
+            setHsl(prev => ({
+                'hue': name === hsl.hue.name ? {
+                    ...prev.hue,
+                    'value': newValue
+                } : { ...prev.hue },
+                'saturate': name === hsl.saturate.name ? {
+                    ...prev.saturate,
+                    'value': newValue,
+                } : { ...prev.saturate },
+                'lightness': name === hsl.lightness.name ? {
+                    ...prev.lightness,
+                    'value': newValue,
+                } : { ...prev.lightness },
+            }));
+        }
 
     }
 
     const handleSlider = (event, newValue) => {
         const name = event.target.name;
-        if (panel === 'RGB' && expand){
-            handleRGB(name, newValue);
-        }
+        handleState(name, newValue);
 
     };
 
@@ -68,7 +114,7 @@ const ColorSpace = () => {
         const realname = `${event.target.name}`;
         const name = realname.slice(0, realname.length - 1);
 
-        handleRGB(name, event.target.value);
+        handleState(name, event.target.value);
     };
 
     const handleBlur = (event) => {
@@ -76,29 +122,35 @@ const ColorSpace = () => {
         const name = realname.slice(0, realname.length - 1);
 
         if (event.target.value < 0) {
-            handleRGB(name, 0)
+            handleState(name, 0)
         } else if (event.target.value > 255) {
-            handleRGB(name, 255);
+            handleState(name, 255);
         }
     };
 
     const handleAccoridon = (panel) => (event, isExpanded) => {
-        console.log(panel);
         setExpand(isExpanded ? panel : false);
         setPanel(panel);
+        console.log(isExpanded);
     }
 
     return (
         <div>
             <MyAccordion expand={expand} colorspace="RGB" onChange={handleAccoridon('RGB')}>
                 {Object.keys(rgb).map((key, index) => {
-                    return (<MySlider key={index} name={rgb[key].name} id={index.toString()} value={rgb[key].value}
-                        onChangeSlider={handleSlider} onChangeInput={handleInputChange}
-                        onBlur={handleBlur} max={255} color={rgb[key].color} />);
+                    return (
+                        <MySlider key={index} name={rgb[key].name} id={index.toString()} value={rgb[key].value}
+                            onChangeSlider={handleSlider} onChangeInput={handleInputChange}
+                            onBlur={handleBlur} max={255} color={rgb[key].color} />);
                 })}
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>
-
+                {Object.keys(hsl).map((key, index) => {
+                    return (
+                        <MySlider key={index} name={hsl[key].name} id={index.toString()} value={hsl[key].value}
+                            onChangeSlider={handleSlider} onChangeInput={handleInputChange}
+                            onBlur={handleBlur} max={hsl[key].name === 'hue' ? 360 : 100} color={hsl[key].color} />);
+                })}
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="CMYK" onChange={handleAccoridon('CMYK')}>
             </MyAccordion>

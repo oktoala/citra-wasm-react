@@ -27,7 +27,7 @@ export const MySlider = (props) => {
 
     return (
         <Grid key={props.id} id={props.id} container spacing={3} alignItems="center">
-            <Grid item xs>
+            <Grid className={props.name} item xs>
                 <Slider name={props.name} sx={{ color: props.color, width: 360 }} max={props.max}
                     value={props.value} onChange={props.onChangeSlider} />
             </Grid>
@@ -42,9 +42,9 @@ export const MySlider = (props) => {
 
 export const HueSlider = (props) => {
     return (
-        <Grid key={props.id} id={props.id} container spacing={3} alignItems="center">
-            <Grid item xs>
-                <Slider name={props.name} sx={{ color: props.color, width: 360, backgroundImage: props.backgroundImage }}
+        <Grid  key={props.id} id={props.id} container spacing={3} alignItems="center">
+            <Grid className={props.name} item xs>
+                <Slider name={props.name} sx={{ color: 'white', width: 360 }}
                     value={props.value} onChange={props.onSlider} />
             </Grid>
             <Grid item xs>

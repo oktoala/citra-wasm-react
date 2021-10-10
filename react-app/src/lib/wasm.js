@@ -15,6 +15,12 @@ export const rgbValue = {
     'blue': 0,
 };
 
+export const hslValue = {
+    'hue': 0,
+    'saturate': 0,
+    'lightness': 0
+}
+
 // Buat filter
 export const filterValue = {
     'index': 0,
@@ -141,16 +147,17 @@ export const rgbChannel = async (r, g, b) => {
     cvs.photon.alter_channels(cvs.image, r, g, b);
 
     cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
-    
+
     getPixels(cvs.canvas1, cvs.ctx);
     bins.current = 'red'
 }
 
-export const hslChannel = async () => {
+export const hslChannel = async (h, s, l) => {
     const cvs = canvasValue();
-    
-    cvs.photon.hsl(cvs.image, "saturate", 0.9);
-    cvs.photon.hsl(cvs.image, "shift_hue", 0.9);
+
+    cvs.photon.hsl(cvs.image, "shift_hue", h);
+    cvs.photon.hsl(cvs.image, "saturate", s);
+    cvs.photon.hsl(cvs.image, 'lighten', l);
     cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
 }
 
