@@ -54,6 +54,7 @@ const Histogram = () => {
             setCurrentColor(value);
             setData(pixel[value].frequency);
         }
+        bins.current = value;
     }
 
     function changeBin(event) {

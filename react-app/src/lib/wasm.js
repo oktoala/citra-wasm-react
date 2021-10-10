@@ -61,9 +61,6 @@ async function getPixels(canvas, ctx) {
 
     });
 
-    console.log(pixel['red'].frequency.length);
-    console.log(pixel['green'].frequency.length);
-
     return pixel;
 }
 

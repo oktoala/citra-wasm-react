@@ -1,16 +1,10 @@
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Accordion from '@mui/material/Accordion';
 import React, { useState, useEffect } from 'react'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Typography from '@mui/material/Typography';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Grid from '@mui/material/Grid';
-import Slider from '@mui/material/Slider';
-import Input from '@mui/material/Input';
 import { rgbChannel, hslChannel, rgbValue } from '../lib/wasm';
+import { MyAccordion, MySlider } from './ColorSpacesComponent';
 
 const ColorSpace = () => {
     const [expand, setExpand] = useState(false);
+    const [panel, setPanel] = useState('');
     const [rgb, setRgb] = useState({
         'red': {
             'name': 'red',
@@ -62,9 +56,11 @@ const ColorSpace = () => {
 
     }
 
-    const handleSlider = (event, newValue, activeThumb) => {
+    const handleSlider = (event, newValue) => {
         const name = event.target.name;
-        handleRGB(name, newValue);
+        if (panel === 'RGB' && expand){
+            handleRGB(name, newValue);
+        }
 
     };
 
@@ -87,7 +83,9 @@ const ColorSpace = () => {
     };
 
     const handleAccoridon = (panel) => (event, isExpanded) => {
+        console.log(panel);
         setExpand(isExpanded ? panel : false);
+        setPanel(panel);
     }
 
     return (
@@ -100,47 +98,14 @@ const ColorSpace = () => {
                 })}
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>
-                <button onClick={hslChannel}>Klik aku</button>
+
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="CMYK" onChange={handleAccoridon('CMYK')}>
-                <Slider data-index={0} onChange={(event, value, activeThumb) => console.log(activeThumb)} ></Slider>
-                <Slider tabIndex={0} onChange={(event, value, activeThumb) => console.log(activeThumb)} ></Slider>
             </MyAccordion>
         </div>
     )
 }
 
-const MyAccordion = (props) => {
-    return (
-        <Accordion expanded={props.expand === props.colorspace} onChange={props.onChange}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} >
-                <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                    {props.colorspace}
-                </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-                {props.children}
-            </AccordionDetails>
-        </Accordion>
-    );
-}
-
-const MySlider = (props) => {
-
-    return (
-        <Grid key={props.id} id={props.id} container spacing={3} alignItems="center">
-            <Grid item xs>
-                <Slider name={props.name} sx={{ color: props.color, width: 360 }} max={props.max}
-                    value={props.value} onChange={props.onChangeSlider} />
-            </Grid>
-            <Grid item xs>
-                <Input name={`${props.name}s`} value={props.value} size="small" onChange={props.onChangeInput} onBlur={props.onBlur}
-                    inputProps={{ max: props.max, type: 'number' }} />
-            </Grid>
-
-        </Grid>
-    );
-}
 
 
 export default ColorSpace;
