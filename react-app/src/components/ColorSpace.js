@@ -57,7 +57,7 @@ const ColorSpace = () => {
     useEffect(() => {
         if (didMount.current) {
             console.log(hsl);
-            hslChannel(hsl.hue.value/360, hsl.saturate.value/100, hsl.lightness.value/100);
+            hslChannel(hsl.hue.value, hsl.saturate.value, hsl.lightness.value);
             hslValue.hue = hsl.hue.value;
             hslValue.saturate = hsl.saturate.value;
             hslValue.lightness = hsl.lightness.value;

@@ -9,6 +9,7 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import LoginIcon from '@mui/icons-material/Login';
 import Button from '@mui/material/Button';
 import {appBarWidth} from '../lib/wasm';
 
@@ -34,6 +35,9 @@ const Appbar = (props) => {
                 </TabList>
                 <IconNav title="Source Code" href="https://github.com/oktoala/citra-wasm-react" >
                     <GitHubIcon />
+                </IconNav>
+                <IconNav title="Login">
+                    <LoginIcon />
                 </IconNav>
                 <Button size="small" href="https://docs.rs/photon-rs/0.3.1/photon_rs/" target="_blank" variant="contained">Docs</Button>
             </Toolbar>

@@ -150,16 +150,19 @@ export const rgbChannel = async (r, g, b) => {
 
     getPixels(cvs.canvas1, cvs.ctx);
     bins.current = 'red'
+    filterValue.index = 0;
 }
 
 export const hslChannel = async (h, s, l) => {
     const cvs = canvasValue();
 
-    cvs.photon.hsl(cvs.image, "shift_hue", h);
-    cvs.photon.hsl(cvs.image, "saturate", s);
-    cvs.photon.hsl(cvs.image, 'lighten', l);
+    cvs.photon.hue_rotate_hsl(cvs.image, 120.0);
+    cvs.photon.saturate_hsl(cvs.image, s/100);
+    cvs.photon.lighten_hsl(cvs.image, l/100);
     cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
+
 }
+
 
 
 
