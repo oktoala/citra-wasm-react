@@ -16,6 +16,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import darkScrollbar from '@mui/material/darkScrollbar';
 import Input from '@mui/material/Input';
+import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { loadWasm, drawOriginalImage } from './lib/wasm';
@@ -31,7 +32,10 @@ const App = () => {
     setTab(newValue);
   };
   const canvasRef = useRef("canvas");
-  
+
+  function handleFile(event) {
+    setFileImg(URL.createObjectURL(event.target.files?.[0]))
+  }
 
   useEffect(() => {
     loadWasm(canvasRef, fileImg);
@@ -66,7 +70,7 @@ const App = () => {
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
         <TabContext value={tab}>
-          <Appbar onChange={handleTab} />
+          <Appbar handleFile={handleFile} onChange={handleTab} />
           <SideBar >
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="0">
               <ColorSpace />
@@ -81,7 +85,9 @@ const App = () => {
         </TabContext>
         <Canvas>
           <canvas ref={canvasRef} />
-          <Input type="file" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} />
+          <Button>
+            <input type="file" accept="image/*" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} />
+          </Button>
         </Canvas>
       </Box>
     </ThemeProvider>

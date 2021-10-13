@@ -85,6 +85,7 @@ export async function drawOriginalImage(canvasRef, img_src) {
     console.log(img_src);
 
     img.src = img_src;
+    state.canvasRef = canvasRef;
 }
 
 export async function loadWasm(canvasRef,fileImg) {
@@ -100,11 +101,10 @@ export async function loadWasm(canvasRef,fileImg) {
         state.loadedWasm = true;
         console.log(`loadedWasm is ${state.loadedWasm}`);
     }
-    state.canvasRef = canvasRef.current;
 }
 
 const canvasValue = () => {
-    const canvas1 = state.canvasRef;
+    const canvas1 = state.canvasRef.current;
     const ctx = canvas1.getContext("2d");
 
     ctx.drawImage(state.img, 0, 0);

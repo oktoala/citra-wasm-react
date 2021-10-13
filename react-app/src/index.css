@@ -32,3 +32,13 @@ code {
     padding-left: 0 !important;
   }
 }
+
+a {
+  color: white;
+  letter-spacing: normal;
+  text-decoration: none;
+}
+
+input[type="file"] {
+  display: none;
+}
