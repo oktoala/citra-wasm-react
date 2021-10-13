@@ -100,8 +100,6 @@ const Histogram = () => {
             .attr("height", function (d) { return height - y(d.length); })
             .style("fill", currentColor);
 
-        console.log("Hahah");
-
     }
 
     const drawSvg = () => {
@@ -149,7 +147,7 @@ const RadioButton = (props) => {
             <FormLabel component="legend">Histogram Colour</FormLabel>
             <RadioGroup onChange={props.onChange} value={props.currentColor} row aria-label="colour" name="radio-color">
                 {props.color.map(v => {
-                    return (<FormControlLabel  value={v.value} label={(v.value === 'grey' ? `${v.value}scale` : v.value).replace(/^\w/, (c) => c.toUpperCase())} control={<Radio key={props.value} size="small" />} />);
+                    return (<FormControlLabel key={v.value} value={v.value} label={(v.value === 'grey' ? `${v.value}scale` : v.value).replace(/^\w/, (c) => c.toUpperCase())} control={<Radio key={props.value} size="small" />} />);
                 })}
             </RadioGroup>
         </FormControl>

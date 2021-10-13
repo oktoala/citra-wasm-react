@@ -131,7 +131,6 @@ const ColorSpace = () => {
     const handleAccoridon = (panel) => (event, isExpanded) => {
         setExpand(isExpanded ? panel : false);
         setPanel(panel);
-        console.log(isExpanded);
     }
 
     return (
@@ -144,7 +143,7 @@ const ColorSpace = () => {
                             onBlur={handleBlur} max={255} color={rgb[key].color} />);
                 })}
             </MyAccordion>
-            <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>
+            {/* <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>
                 {Object.keys(hsl).map((key, index) => {
                     return (
                         <MySlider key={index} name={hsl[key].name} id={index.toString()} value={hsl[key].value}
@@ -153,7 +152,7 @@ const ColorSpace = () => {
                 })}
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="CMYK" onChange={handleAccoridon('CMYK')}>
-            </MyAccordion>
+            </MyAccordion> */}
         </div>
     )
 }

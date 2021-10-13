@@ -15,25 +15,38 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import darkScrollbar from '@mui/material/darkScrollbar';
-import { loadWasm } from './lib/wasm';
+import Input from '@mui/material/Input';
+import CircularProgress from '@mui/material/CircularProgress';
 
+import { loadWasm, drawOriginalImage } from './lib/wasm';
+import img_src from './img/daisies.jpg';
 
 
 const App = () => {
 
   const [tab, setTab] = useState("0");
-
+  const [fileImg, setFileImg] = useState(img_src);
+  const [load, setLoad] = useState(false);
   const handleTab = (event, newValue) => {
     setTab(newValue);
   };
   const canvasRef = useRef("canvas");
+  
 
   useEffect(() => {
-    loadWasm(canvasRef);
+    loadWasm(canvasRef, fileImg);
 
   },
     // eslint-disable-next-line
-    [])
+    []);
+
+  useEffect(() => {
+    if (load) {
+      drawOriginalImage(canvasRef, fileImg);
+    } else {
+      setLoad(true);
+    }
+  }, [fileImg]);
 
   const theme = createTheme({
     palette: {
@@ -68,6 +81,7 @@ const App = () => {
         </TabContext>
         <Canvas>
           <canvas ref={canvasRef} />
+          <Input type="file" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} />
         </Canvas>
       </Box>
     </ThemeProvider>

@@ -1,4 +1,3 @@
-import img_src from '../img/daisies.jpg';
 
 // State Bohongan
 const state = {
@@ -70,10 +69,10 @@ async function getPixels(canvas, ctx) {
     return pixel;
 }
 
-async function drawOriginalImage(canvasRef) {
+export async function drawOriginalImage(canvasRef, img_src) {
     const img = new Image();
 
-    img.onload = () => {
+    img.onload = async () => {
         state.img = img;
         const canvas = canvasRef.current;
         canvas.width = state.img.width;
@@ -83,27 +82,29 @@ async function drawOriginalImage(canvasRef) {
         ctx.drawImage(state.img, 0, 0);
         getPixels(canvas, ctx);
     }
+    console.log(img_src);
 
     img.src = img_src;
 }
 
-export async function loadWasm(canvasRef) {
+export async function loadWasm(canvasRef,fileImg) {
     try {
         const photon = await import('@silvia-odwyer/photon');
 
         state.wasm = photon
 
-        drawOriginalImage(canvasRef);
+        drawOriginalImage(canvasRef, fileImg);
+
     } finally {
         console.log("Loaded Wasm Successfully");
         state.loadedWasm = true;
         console.log(`loadedWasm is ${state.loadedWasm}`);
     }
-    state.canvasRef = canvasRef;
+    state.canvasRef = canvasRef.current;
 }
 
 const canvasValue = () => {
-    const canvas1 = state.canvasRef.current;
+    const canvas1 = state.canvasRef;
     const ctx = canvas1.getContext("2d");
 
     ctx.drawImage(state.img, 0, 0);
@@ -131,6 +132,10 @@ export const filter = async (filterValue) => {
     } else if (filterValue === "grayscale") {
         cvs.photon.grayscale(cvs.image);
         bins.current = 'grey';
+    } else if (filterValue === "edge"){
+        cvs.photon.grayscale(cvs.image);
+        cvs.photon.detect_horizontal_lines(cvs.image);
+        
     } else {
         cvs.photon.filter(cvs.image, filterValue);
         bins.current = 'red';

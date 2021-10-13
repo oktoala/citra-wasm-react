@@ -9,7 +9,7 @@ const Filter = () => {
     const [index, setIndex] = useState(filterValue.index);
 
     const listFilter = [
-        'none', 'grayscale', 'oceanic', 'island', 'marine', 'seagreen',
+        'none', 'grayscale', 'edge', 'oceanic', 'island', 'marine', 'seagreen',
         'flagblue', 'liquid', 'diamante', 'radio', 'twenties',
         'rosetint', 'mauve', 'bluechrome', 'vintage', 'perfume', 'sereniry'
     ];
