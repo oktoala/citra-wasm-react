@@ -3,18 +3,16 @@ import AppBar from '@mui/material/AppBar';
 import Tab from '@mui/material/Tab';
 import Tooltip from '@mui/material/Tooltip';
 import TabList from '@mui/lab/TabList';
-import PaletteIcon from '@mui/icons-material/Palette';
-import FilterIcon from '@mui/icons-material/Filter';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
+import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
+import FilterHdrOutlinedIcon from '@mui/icons-material/FilterHdrOutlined';
+import EqualizerOutlinedIcon from '@mui/icons-material/EqualizerOutlined';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import DescriptionIcon from '@mui/icons-material/Description';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
-import LoginIcon from '@mui/icons-material/Login';
-import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -30,7 +28,7 @@ const Appbar = (props) => {
         setAnchor(event.currentTarget);
     }
 
-    function handleCloseMenu(event) {
+    function handleClose(event) {
         setAnchor(null);
     }
 
@@ -42,33 +40,28 @@ const Appbar = (props) => {
             <Toolbar variant="dense" sx={{ padding: 0, }}>
                 <TabList onChange={props.onChange} sx={{ flexGrow: 1, borderBottomColor: 'red' }}>
                     <Tooltip title="Color Space" value="0">
-                        <Tab label={<PaletteIcon />} sx={{}} />
+                        <Tab label={<PaletteOutlinedIcon />} />
                     </Tooltip>
                     <Tooltip title="Filter" value="1">
-                        <Tab label={<FilterIcon />} />
+                        <Tab label={<FilterHdrOutlinedIcon />} />
                     </Tooltip>
                     <Tooltip title="Histogram" value="2" >
-                        <Tab label={<EqualizerIcon />} />
+                        <Tab label={<EqualizerOutlinedIcon />} />
                     </Tooltip>
                 </TabList>
                 <IconButton aria-controls="menu" aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleMenu}>
                     <MoreVertIcon />
                 </IconButton>
-                <Menu id="menu" anchorEl={anchor} open={open} onClose={handleCloseMenu} MenuListProps={{
+                <Menu id="menu" anchorEl={anchor} open={open} onClose={handleClose} MenuListProps={{
                     'aria-labelledby': 'basic-button',
                 }}>
-                    <label for="input-gambar" >
-                        <MenuItem>
-                            <InsertPhotoOutlinedIcon />
-                            <Typography sx={{ marginLeft: 2 }}>
-                                Ganti Gambar
-                            </Typography>
-                        </MenuItem>
-                        <input accept="image/*" onChange={props.handleFile} id="input-gambar"  type="file"></input>
+                    <label htmlFor="input-gambar" >
+                        <MyItem oc={handleClose} icon={<InsertPhotoOutlinedIcon />} label="Ganti Gambar" />
+                        {/* <input accept="image/*" onChange={props.onFile} id="input-gambar" type="file"></input> */}
                     </label>
                     <Divider />
-                    <MyItem icon={<GitHubIcon />} label="Source Code" href="https://github.com/oktoala/citra-wasm-react" />
-                    <MyItem icon={<DescriptionIcon />} label="Documentation" href="https://docs.rs/photon-rs/0.3.1/photon_rs/" />
+                    <MyItem oc={handleClose} icon={<GitHubIcon />} label="Source Code" href="https://github.com/oktoala/citra-wasm-react" />
+                    <MyItem oc={handleClose} icon={<DescriptionOutlinedIcon />} label="Documentation" href="https://docs.rs/photon-rs/0.3.1/photon_rs/" />
                 </Menu>
             </Toolbar>
         </AppBar>
@@ -77,8 +70,8 @@ const Appbar = (props) => {
 
 const MyItem = (props) => {
     return (
-        <a href={props.href} target="_blank">
-            <MenuItem >
+        <a rel="noreferrer" href={props.href} target="_blank">
+            <MenuItem onClick={props.oc}>
                 {props.icon}
                 <Typography sx={{ marginLeft: 2 }}>
                     {props.label}
@@ -88,14 +81,14 @@ const MyItem = (props) => {
     );
 }
 
-const IconNav = (props) => {
-    return (
-        <IconButton sx={{ marginRight: 3 }} href={props.href} target="_blank">
-            <Tooltip title={props.title}>
-                {props.children}
-            </Tooltip>
-        </IconButton>
-    )
-}
+// const IconNav = (props) => {
+//     return (
+//         <IconButton sx={{ marginRight: 3 }} href={props.href} target="_blank">
+//             <Tooltip title={props.title}>
+//                 {props.children}
+//             </Tooltip>
+//         </IconButton>
+//     )
+// }
 
 export default Appbar;

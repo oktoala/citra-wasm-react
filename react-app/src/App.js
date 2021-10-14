@@ -15,9 +15,6 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import darkScrollbar from '@mui/material/darkScrollbar';
-import Input from '@mui/material/Input';
-import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import { loadWasm, drawOriginalImage } from './lib/wasm';
 import img_src from './img/daisies.jpg';
@@ -33,13 +30,8 @@ const App = () => {
   };
   const canvasRef = useRef("canvas");
 
-  function handleFile(event) {
-    setFileImg(URL.createObjectURL(event.target.files?.[0]))
-  }
-
   useEffect(() => {
     loadWasm(canvasRef, fileImg);
-
   },
     // eslint-disable-next-line
     []);
@@ -50,7 +42,9 @@ const App = () => {
     } else {
       setLoad(true);
     }
-  }, [fileImg]);
+  },
+    // eslint-disable-next-line
+    [fileImg]);
 
   const theme = createTheme({
     palette: {
@@ -70,7 +64,9 @@ const App = () => {
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
         <TabContext value={tab}>
-          <Appbar handleFile={handleFile} onChange={handleTab} />
+          <Appbar onChange={handleTab} >
+            <input accept="image/*" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} id="input-gambar" type="file"></input>
+          </Appbar>
           <SideBar >
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="0">
               <ColorSpace />
@@ -85,12 +81,14 @@ const App = () => {
         </TabContext>
         <Canvas>
           <canvas ref={canvasRef} />
-          <Button>
-            <input type="file" accept="image/*" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} />
-          </Button>
+          {/* <label htmlFor="input-gambar" >
+          </label> */}
+          <input accept="image/*"
+            onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))}
+            id="input-gambar" type="file"></input>
         </Canvas>
       </Box>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 };
 

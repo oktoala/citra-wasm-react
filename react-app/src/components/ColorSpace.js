@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { rgbChannel, hslChannel, rgbValue, hslValue } from '../lib/wasm';
-import { HueSlider, MyAccordion, MySlider } from './ColorSpacesComponent';
+import { MyAccordion, MySlider } from './ColorSpacesComponent';
 
 const ColorSpace = () => {
     const [expand, setExpand] = useState(false);

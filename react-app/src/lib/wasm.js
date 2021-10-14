@@ -39,6 +39,10 @@ export const pixel = {
     },
 }
 
+export const svgValue =
+    { svg: null, x: null, y: null, yAxis: null };
+
+
 export const bins = {
     bin: 8,
     current: 'red',
@@ -82,13 +86,13 @@ export async function drawOriginalImage(canvasRef, img_src) {
         ctx.drawImage(state.img, 0, 0);
         getPixels(canvas, ctx);
     }
-    console.log(img_src);
-
+    
     img.src = img_src;
     state.canvasRef = canvasRef;
+    console.log(img_src);
 }
 
-export async function loadWasm(canvasRef,fileImg) {
+export async function loadWasm(canvasRef, fileImg) {
     try {
         const photon = await import('@silvia-odwyer/photon');
 
@@ -97,9 +101,9 @@ export async function loadWasm(canvasRef,fileImg) {
         drawOriginalImage(canvasRef, fileImg);
 
     } finally {
-        console.log("Loaded Wasm Successfully");
+        // console.log("Loaded Wasm Successfully");
         state.loadedWasm = true;
-        console.log(`loadedWasm is ${state.loadedWasm}`);
+        // console.log(`loadedWasm is ${state.loadedWasm}`);
     }
 }
 
@@ -132,10 +136,10 @@ export const filter = async (filterValue) => {
     } else if (filterValue === "grayscale") {
         cvs.photon.grayscale(cvs.image);
         bins.current = 'grey';
-    } else if (filterValue === "edge"){
+    } else if (filterValue === "edge") {
         cvs.photon.grayscale(cvs.image);
         cvs.photon.detect_horizontal_lines(cvs.image);
-        
+
     } else {
         cvs.photon.filter(cvs.image, filterValue);
         bins.current = 'red';
@@ -162,8 +166,8 @@ export const hslChannel = async (h, s, l) => {
     const cvs = canvasValue();
 
     cvs.photon.hue_rotate_hsl(cvs.image, 120.0);
-    cvs.photon.saturate_hsl(cvs.image, s/100);
-    cvs.photon.lighten_hsl(cvs.image, l/100);
+    cvs.photon.saturate_hsl(cvs.image, s / 100);
+    cvs.photon.lighten_hsl(cvs.image, l / 100);
     cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
 
 }
