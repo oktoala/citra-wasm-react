@@ -7,6 +7,10 @@ const state = {
     'canvasRef': null,
 }
 
+export const isExpanded = {
+    'value': false,
+}
+
 // Buat menyimpan value saat tab dirubah
 export const rgbValue = {
     'red': 0,

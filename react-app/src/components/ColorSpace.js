@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { rgbChannel, hslChannel, rgbValue, hslValue } from '../lib/wasm';
 import { MyAccordion, MySlider } from './ColorSpacesComponent';
+import { isExpanded } from '../lib/wasm';
 
 const ColorSpace = () => {
-    const [expand, setExpand] = useState(false);
+    const [expand, setExpand] = useState(isExpanded.value);
     const [panel, setPanel] = useState('');
     const [rgb, setRgb] = useState({
         'red': {
@@ -128,9 +129,10 @@ const ColorSpace = () => {
         }
     };
 
-    const handleAccoridon = (panel) => (event, isExpanded) => {
-        setExpand(isExpanded ? panel : false);
+    const handleAccoridon = (panel) => (event, expanded) => {
+        setExpand(expanded ? panel : false);
         setPanel(panel);
+        // isExpanded.value = expanded ? panel : false;
     }
 
     return (

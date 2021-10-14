@@ -16,7 +16,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import darkScrollbar from '@mui/material/darkScrollbar';
 
-import { loadWasm, drawOriginalImage } from './lib/wasm';
+import { loadWasm, drawOriginalImage, filter } from './lib/wasm';
 import img_src from './img/daisies.jpg';
 
 
@@ -25,9 +25,16 @@ const App = () => {
   const [tab, setTab] = useState("0");
   const [fileImg, setFileImg] = useState(img_src);
   const [load, setLoad] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   const handleTab = (event, newValue) => {
     setTab(newValue);
   };
+
   const canvasRef = useRef("canvas");
 
   useEffect(() => {
@@ -39,6 +46,7 @@ const App = () => {
   useEffect(() => {
     if (load) {
       drawOriginalImage(canvasRef, fileImg);
+      filter('none');
     } else {
       setLoad(true);
     }
@@ -64,10 +72,10 @@ const App = () => {
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
         <TabContext value={tab}>
-          <Appbar onChange={handleTab} >
+          <Appbar handleDrawerToggle={handleDrawerToggle} onChange={handleTab} >
             <input accept="image/*" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} id="input-gambar" type="file"></input>
           </Appbar>
-          <SideBar >
+          <SideBar open={mobileOpen} onClose={handleDrawerToggle} >
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="0">
               <ColorSpace />
             </TabPanel >
