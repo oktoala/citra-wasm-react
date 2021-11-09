@@ -3,6 +3,7 @@
 const state = {
     'loadedWasm': false,
     'wasm': null,
+    'proc': null,
     'img': null,
     'canvasRef': null,
 }
@@ -88,9 +89,10 @@ export async function drawOriginalImage(canvasRef, img_src) {
         const ctx = canvas.getContext("2d");
 
         ctx.drawImage(state.img, 0, 0);
+        console.log(typeof state.img);
         getPixels(canvas, ctx);
     }
-    
+
     img.src = img_src;
     state.canvasRef = canvasRef;
     console.log(img_src);
@@ -100,7 +102,9 @@ export async function loadWasm(canvasRef, fileImg) {
     try {
         const photon = await import('@silvia-odwyer/photon');
 
-        state.wasm = photon
+        console.log(photon);
+
+        state.wasm = photon;
 
         drawOriginalImage(canvasRef, fileImg);
 
@@ -138,11 +142,21 @@ export const filter = async (filterValue) => {
         cvs.photon.alter_channels(cvs.image, rgbValue.red, rgbValue.green, rgbValue.blue);
         bins.current = 'red';
     } else if (filterValue === "grayscale") {
-        cvs.photon.grayscale(cvs.image);
+        // cvs.photon.get_image_data(cvs.canvas1, cvs.ctx).data[0] = 0;
+        // cvs.photon.get_image_data(cvs.canvas1, cvs.ctx).data[4] = 0;
+        cvs.photon.grayscale_human_corrected(cvs.image);
         bins.current = 'grey';
     } else if (filterValue === "edge") {
-        cvs.photon.grayscale(cvs.image);
-        cvs.photon.detect_horizontal_lines(cvs.image);
+        console.log(cvs.image);
+        // cvs.photon.grayscale_human_corrected(cvs.image);
+        // cvs.photon.identity(cvs.image);
+        // cvs.photon.detect_horizontal_lines(cvs.image);
+        // cvs.photon.detect_vertical_lines(cvs.image);
+        // cvs.photon.gaussian_blur(cvs.image, 1);
+        // cvs.photon.prewitt_horizontal(cvs.image);
+        // cvs.photon.edge_detection(cvs.image);
+        // cvs.photon.horizontal_strips(cvs.image, 3);
+        console.log(cvs.photon);
 
     } else {
         cvs.photon.filter(cvs.image, filterValue);
