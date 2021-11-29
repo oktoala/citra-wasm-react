@@ -10,7 +10,7 @@ const Filter = () => {
 
     // Add filter that you like and go to wasm.js -> filter() to add the method
     const listFilter = [
-        'none', 'grayscale', 'gaussian', 'oceanic', 'island', 'marine', 'seagreen',
+        'none', 'grayscale', 'gaussian', 'sharpen', 'oceanic', 'island', 'marine', 'seagreen',
         'flagblue', 'liquid', 'diamante', 'radio', 'twenties',
         'rosetint', 'mauve', 'bluechrome', 'vintage', 'perfume', 'sereniry'
     ];

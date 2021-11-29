@@ -148,6 +148,8 @@ export const filter = async (filterValue) => {
         bins.current = 'grey';
     } else if (filterValue === "gaussian") {
         cvs.photon.gaussian_blur(cvs.image, 3);
+    } else if (filterValue === "sharpen"){
+        cvs.photon.sharpen(cvs.image);
     } else {
         cvs.photon.filter(cvs.image, filterValue);
         bins.current = 'red';
