@@ -146,18 +146,8 @@ export const filter = async (filterValue) => {
         // cvs.photon.get_image_data(cvs.canvas1, cvs.ctx).data[4] = 0;
         cvs.photon.grayscale_human_corrected(cvs.image);
         bins.current = 'grey';
-    } else if (filterValue === "edge") {
-        console.log(cvs.image);
-        // cvs.photon.grayscale_human_corrected(cvs.image);
-        // cvs.photon.identity(cvs.image);
-        // cvs.photon.detect_horizontal_lines(cvs.image);
-        // cvs.photon.detect_vertical_lines(cvs.image);
-        // cvs.photon.gaussian_blur(cvs.image, 1);
-        // cvs.photon.prewitt_horizontal(cvs.image);
-        // cvs.photon.edge_detection(cvs.image);
-        // cvs.photon.horizontal_strips(cvs.image, 3);
-        console.log(cvs.photon);
-
+    } else if (filterValue === "gaussian") {
+        cvs.photon.gaussian_blur(cvs.image, 3);
     } else {
         cvs.photon.filter(cvs.image, filterValue);
         bins.current = 'red';
