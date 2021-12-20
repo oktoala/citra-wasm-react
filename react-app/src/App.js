@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 // Component
 import Appbar from "./components/Appbar";
 import SideBar from './components/SideBar';
-import ColorSpace from './components/ColorSpace';
+import Enhancement from './components/Enhancement';
 import Filter from './components/Filter';
 import Histogram from './components/Histogram';
 // Material UI
@@ -24,6 +24,7 @@ const Canvas = (props) => {
 
   useEffect(() => {
     if (cv) {
+      console.log(cv);
       getCV2(cv);
     }
   }, [cv])
@@ -54,7 +55,6 @@ const App = () => {
     console.log('opencv loaded, cv')
   }
   const canvasRef = useRef("canvas");
-
 
   useEffect(() => {
     loadWasm(canvasRef, fileImg);
@@ -94,7 +94,7 @@ const App = () => {
           <Appbar handleDrawerToggle={handleDrawerToggle} onChange={handleTab} />
           <SideBar open={mobileOpen} onClose={handleDrawerToggle} >
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="0">
-              <ColorSpace />
+              <Enhancement />
             </TabPanel>
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="1">
               <Filter />
@@ -104,10 +104,9 @@ const App = () => {
             </TabPanel>
           </SideBar>
         </TabContext>
-        <OpenCvProvider onLoad={onLoaded} >
+        <OpenCvProvider onLoad={onLoaded} openCvPath='/opencv/opencv.js'>
           <Canvas>
             <canvas ref={canvasRef} />
-            <canvas id="canvasOutput" />
             <input accept="image/*" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} id="input-gambar" type="file" />
           </Canvas>
         </OpenCvProvider>

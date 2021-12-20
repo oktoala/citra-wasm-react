@@ -9,7 +9,7 @@ const state = {
 }
 
 export function getRequire() {
-    return new Promise(resolve =>  {
+    return new Promise(resolve => {
         setTimeout(() => {
             resolve('lib/opencv.js');
         });
@@ -27,17 +27,21 @@ export const rgbValue = {
     'blue': 0,
 };
 
-export const hslValue = {
-    'hue': 0,
-    'saturate': 0,
-    'lightness': 0
-}
+export const cannyValue = {
+    'lower': 0,
+    'upper': 0,
+};
 
 // Buat filter
 export const filterValue = {
     'index': 0,
     'filter': 'none'
 }
+
+export const spaceValue = {
+    'index': 0,
+    'space': 'None'
+};
 
 // Buat histogram
 export const pixel = {
@@ -150,13 +154,7 @@ export const filter = async (filterValue) => {
         cvs.photon.alter_channels(cvs.image, rgbValue.red, rgbValue.green, rgbValue.blue);
         bins.current = 'red';
     } else if (filterValue === "grayscale") {
-        // cvs.photon.grayscale_human_corrected(cvs.image);
-        console.log(cvs);
-        const src = cv2.imread(cvs.canvas1);
-        cv2.cvtColor(src, src, cv2.COLOR_RGB2GRAY, 0);
-        cv2.Canny(src, src, 50, 100, 3, false);
-        cv2.imshow(cvs.canvas1, src);
-        src.delete();
+        cvs.photon.grayscale_human_corrected(cvs.image);
         bins.current = 'grey';
         console.log(cv2);
     } else if (filterValue === "gaussian") {
@@ -167,8 +165,7 @@ export const filter = async (filterValue) => {
         cvs.photon.filter(cvs.image, filterValue);
         bins.current = 'red';
     }
-
-    // cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
+    cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
     getPixels(cvs.canvas1, cvs.ctx);
 }
 
@@ -185,18 +182,34 @@ export const rgbChannel = async (r, g, b) => {
     filterValue.index = 0;
 }
 
-export const hslChannel = async (h, s, l) => {
+// Using CV2 Library
+export const colorSpace = async (space) => {
     const cvs = canvasValue();
-
-    cvs.photon.hue_rotate_hsl(cvs.image, 120.0);
-    cvs.photon.saturate_hsl(cvs.image, s / 100);
-    cvs.photon.lighten_hsl(cvs.image, l / 100);
-    cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
-
+    
+    const src = cv2.imread(cvs.canvas1);
+    console.log(src);
+    if (space === 'RGB2HSV') {
+        cv2.cvtColor(src, src, cv2.COLOR_RGB2HSV, 0);
+    } else if (space === 'RGB2Lab') {
+        cv2.cvtColor(src, src, cv2.COLOR_RGB2Lab, 0);
+    } else if (space === 'RGB2Luv') {
+        cv2.cvtColor(src, src, cv2.COLOR_RGB2Luv, 0);
+    }
+    cv2.imshow(cvs.canvas1, src);
+    src.delete();
+    bins.current = 'red';
+    getPixels(cvs.canvas1, cvs.ctx);
 }
 
+export const cannyEdge = async (lower, upper) => {
+    const cvs = canvasValue();
 
-
-
-
+    const src = cv2.imread(cvs.canvas1);
+    cv2.cvtColor(src, src, cv2.COLOR_RGB2GRAY, 0);
+    cv2.Canny(src, src, lower, upper, 3, false);
+    cv2.imshow(cvs.canvas1, src);
+    src.delete();
+    bins.current = 'grey';
+    getPixels(cvs.canvas1, cvs.ctx);
+}
 
