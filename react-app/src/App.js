@@ -3,22 +3,37 @@ import { useState, useEffect, useRef } from 'react';
 // Component
 import Appbar from "./components/Appbar";
 import SideBar from './components/SideBar';
-import Canvas from './components/Canvas';
 import ColorSpace from './components/ColorSpace';
 import Filter from './components/Filter';
 import Histogram from './components/Histogram';
 // Material UI
 import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
 import createTheme from '@mui/material/styles/createTheme';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import darkScrollbar from '@mui/material/darkScrollbar';
-
-import { loadWasm, drawOriginalImage, filter } from './lib/wasm';
+import { loadWasm, drawOriginalImage, filter, getCV2 } from './lib/wasm';
 import img_src from './img/daisies.jpg';
+import { OpenCvProvider, useOpenCv } from 'opencv-react';
 
+const Canvas = (props) => {
+  const { cv } = useOpenCv()
+
+  useEffect(() => {
+    if (cv) {
+      getCV2(cv);
+    }
+  }, [cv])
+  return (
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Toolbar variant="dense" />
+      {props.children}
+    </Box>
+  )
+}
 
 const App = () => {
 
@@ -27,6 +42,7 @@ const App = () => {
   const [load, setLoad] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -34,8 +50,11 @@ const App = () => {
   const handleTab = (event, newValue) => {
     setTab(newValue);
   };
-
+  const onLoaded = (cv) => {
+    console.log('opencv loaded, cv')
+  }
   const canvasRef = useRef("canvas");
+
 
   useEffect(() => {
     loadWasm(canvasRef, fileImg);
@@ -85,13 +104,18 @@ const App = () => {
             </TabPanel>
           </SideBar>
         </TabContext>
-        <Canvas>
-          <canvas ref={canvasRef} />
-          <input accept="image/*" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} id="input-gambar" type="file" />
-        </Canvas>
+        <OpenCvProvider onLoad={onLoaded} >
+          <Canvas>
+            <canvas ref={canvasRef} />
+            <canvas id="canvasOutput" />
+            <input accept="image/*" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} id="input-gambar" type="file" />
+          </Canvas>
+        </OpenCvProvider>
       </Box>
     </ThemeProvider >
   );
 };
+
+
 
 export default App;

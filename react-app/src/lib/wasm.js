@@ -8,6 +8,14 @@ const state = {
     'canvasRef': null,
 }
 
+export function getRequire() {
+    return new Promise(resolve =>  {
+        setTimeout(() => {
+            resolve('lib/opencv.js');
+        });
+    });
+}
+
 export const isExpanded = {
     'value': false,
 }
@@ -55,6 +63,12 @@ export const bins = {
 
 export const appBarWidth = 490;
 
+export let cv2;
+
+export function getCV2(CV2) {
+    cv2 = CV2;
+}
+
 async function getPixels(canvas, ctx) {
     const photon = state.wasm;
 
@@ -89,32 +103,23 @@ export async function drawOriginalImage(canvasRef, img_src) {
         const ctx = canvas.getContext("2d");
 
         ctx.drawImage(state.img, 0, 0);
-        console.log(typeof state.img);
         getPixels(canvas, ctx);
     }
 
     img.src = img_src;
     state.canvasRef = canvasRef;
-    console.log(img_src);
 }
 
 export async function loadWasm(canvasRef, fileImg) {
     try {
         const photon = await import('@silvia-odwyer/photon');
-        // const cv = await require('./opencv');
-
-        // console.log(cv);
-
-        console.log(photon);
 
         state.wasm = photon;
 
         drawOriginalImage(canvasRef, fileImg);
 
     } finally {
-        // console.log("Loaded Wasm Successfully");
         state.loadedWasm = true;
-        // console.log(`loadedWasm is ${state.loadedWasm}`);
     }
 }
 
@@ -145,10 +150,15 @@ export const filter = async (filterValue) => {
         cvs.photon.alter_channels(cvs.image, rgbValue.red, rgbValue.green, rgbValue.blue);
         bins.current = 'red';
     } else if (filterValue === "grayscale") {
-        // cvs.photon.get_image_data(cvs.canvas1, cvs.ctx).data[0] = 0;
-        // cvs.photon.get_image_data(cvs.canvas1, cvs.ctx).data[4] = 0;
-        cvs.photon.grayscale_human_corrected(cvs.image);
+        // cvs.photon.grayscale_human_corrected(cvs.image);
+        console.log(cvs);
+        const src = cv2.imread(cvs.canvas1);
+        cv2.cvtColor(src, src, cv2.COLOR_RGB2GRAY, 0);
+        cv2.Canny(src, src, 50, 100, 3, false);
+        cv2.imshow(cvs.canvas1, src);
+        src.delete();
         bins.current = 'grey';
+        console.log(cv2);
     } else if (filterValue === "gaussian") {
         cvs.photon.gaussian_blur(cvs.image, 3);
     } else if (filterValue === "sharpen") {
@@ -158,7 +168,7 @@ export const filter = async (filterValue) => {
         bins.current = 'red';
     }
 
-    cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
+    // cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
     getPixels(cvs.canvas1, cvs.ctx);
 }
 

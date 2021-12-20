@@ -43,7 +43,7 @@ const ColorSpace = () => {
         }
     });
 
-    const didMount = React.useRef(false);
+    const didMount = React.useRef(true);
 
     useEffect(() => {
         if (didMount.current) {
@@ -55,20 +55,6 @@ const ColorSpace = () => {
         } else {
         }
     }, [rgb]);
-
-    useEffect(() => {
-        if (didMount.current) {
-            console.log(hsl);
-            hslChannel(hsl.hue.value, hsl.saturate.value, hsl.lightness.value);
-            hslValue.hue = hsl.hue.value;
-            hslValue.saturate = hsl.saturate.value;
-            hslValue.lightness = hsl.lightness.value;
-        } else {
-            // Ini akan di jalankan pertama
-            didMount.current = true;
-        }
-
-    }, [hsl])
 
     function handleState(name, newValue) {
 
@@ -155,6 +141,11 @@ const ColorSpace = () => {
                 })}
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="CMYK" onChange={handleAccoridon('CMYK')}>
+                <Button variant="contained" >
+                    Edge
+                </Button>
+            </MyAccordion>
+            <MyAccordion expand={expand} colorspace="" onChange={handleAccoridon('')}>
                 <Button variant="contained" >
                     Edge
                 </Button>
