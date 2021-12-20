@@ -49,7 +49,7 @@ const Appbar = (props) => {
                     <MenuIcon />
                 </IconButton>
                 <TabList onChange={props.onChange} sx={{ flexGrow: 1, borderBottomColor: 'red' }}>
-                    <Tooltip title="Color Space" value="0">
+                    <Tooltip title="Enhacement" value="0">
                         <Tab label={<PaletteOutlinedIcon />} />
                     </Tooltip>
                     <Tooltip title="Filter" value="1">
@@ -90,15 +90,5 @@ const MyItem = (props) => {
         </a>
     );
 }
-
-// const IconNav = (props) => {
-//     return (
-//         <IconButton sx={{ marginRight: 3 }} href={props.href} target="_blank">
-//             <Tooltip title={props.title}>
-//                 {props.children}
-//             </Tooltip>
-//         </IconButton>
-//     )
-// }
 
 export default Appbar;

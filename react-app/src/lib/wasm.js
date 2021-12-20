@@ -101,6 +101,9 @@ export async function drawOriginalImage(canvasRef, img_src) {
 export async function loadWasm(canvasRef, fileImg) {
     try {
         const photon = await import('@silvia-odwyer/photon');
+        // const cv = await require('./opencv');
+
+        // console.log(cv);
 
         console.log(photon);
 
@@ -148,7 +151,7 @@ export const filter = async (filterValue) => {
         bins.current = 'grey';
     } else if (filterValue === "gaussian") {
         cvs.photon.gaussian_blur(cvs.image, 3);
-    } else if (filterValue === "sharpen"){
+    } else if (filterValue === "sharpen") {
         cvs.photon.sharpen(cvs.image);
     } else {
         cvs.photon.filter(cvs.image, filterValue);
@@ -181,7 +184,6 @@ export const hslChannel = async (h, s, l) => {
     cvs.photon.putImageData(cvs.canvas1, cvs.ctx, cvs.image);
 
 }
-
 
 
 

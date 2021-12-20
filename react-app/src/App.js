@@ -72,13 +72,11 @@ const App = () => {
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
         <TabContext value={tab}>
-          <Appbar handleDrawerToggle={handleDrawerToggle} onChange={handleTab} >
-            <input accept="image/*" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} id="input-gambar" type="file"></input>
-          </Appbar>
+          <Appbar handleDrawerToggle={handleDrawerToggle} onChange={handleTab} />
           <SideBar open={mobileOpen} onClose={handleDrawerToggle} >
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="0">
               <ColorSpace />
-            </TabPanel >
+            </TabPanel>
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="1">
               <Filter />
             </TabPanel>
@@ -89,11 +87,7 @@ const App = () => {
         </TabContext>
         <Canvas>
           <canvas ref={canvasRef} />
-          {/* <label htmlFor="input-gambar" >
-          </label> */}
-          <input accept="image/*"
-            onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))}
-            id="input-gambar" type="file"></input>
+          <input accept="image/*" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} id="input-gambar" type="file" />
         </Canvas>
       </Box>
     </ThemeProvider >

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { rgbChannel, hslChannel, rgbValue, hslValue } from '../lib/wasm';
 import { MyAccordion, MySlider } from './ColorSpacesComponent';
 import { isExpanded } from '../lib/wasm';
+import Button from '@mui/material/Button';
 
 const ColorSpace = () => {
     const [expand, setExpand] = useState(isExpanded.value);
@@ -54,7 +55,7 @@ const ColorSpace = () => {
         } else {
         }
     }, [rgb]);
-    
+
     useEffect(() => {
         if (didMount.current) {
             console.log(hsl);
@@ -66,7 +67,7 @@ const ColorSpace = () => {
             // Ini akan di jalankan pertama
             didMount.current = true;
         }
-        
+
     }, [hsl])
 
     function handleState(name, newValue) {
@@ -145,7 +146,7 @@ const ColorSpace = () => {
                             onBlur={handleBlur} max={255} color={rgb[key].color} />);
                 })}
             </MyAccordion>
-            {/* <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>
+            <MyAccordion expand={expand} colorspace="HSL" onChange={handleAccoridon('HSL')}>
                 {Object.keys(hsl).map((key, index) => {
                     return (
                         <MySlider key={index} name={hsl[key].name} id={index.toString()} value={hsl[key].value}
@@ -154,7 +155,10 @@ const ColorSpace = () => {
                 })}
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="CMYK" onChange={handleAccoridon('CMYK')}>
-            </MyAccordion> */}
+                <Button variant="contained" >
+                    Edge
+                </Button>
+            </MyAccordion>
         </div>
     )
 }
