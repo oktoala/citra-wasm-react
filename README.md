@@ -1,6 +1,6 @@
 # Tugas Pengolahan Citra Tapi WASM
 
-Aplikasi ini dibangun menggunakan Photon.
+Aplikasi ini dibangun menggunakan Photon dan OpenCV.
 
 Pastikan kalian sudah menginstall [Rust](https://www.rust-lang.org/tools/install).
 
@@ -32,6 +32,8 @@ Cara menjalankan:
     cd ../../react-app
     npm install
     ```
+
+    Kalau gagal, paksa install menggunakan `npm i --force`.
 
 5. Jika sudah, install `react-app-rewired` dan `wasm-loader`
 

@@ -48,7 +48,7 @@ const Appbar = (props) => {
                     <MenuIcon />
                 </IconButton>
                 <TabList onChange={props.onChange} sx={{ flexGrow: 1, borderBottomColor: 'red' }}>
-                    <Tooltip title="Enhacement" value="0">
+                    <Tooltip title="Enhancement" value="0">
                         <Tab label={<PaletteOutlinedIcon />} />
                     </Tooltip>
                     <Tooltip title="Histogram" value="2" >
