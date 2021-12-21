@@ -1,7 +1,7 @@
-import React, { useState,useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MySlider } from './MyAccordion';
 import { cannyEdge, cannyValue } from '../lib/wasm';
-
+import  Typography  from '@mui/material/Typography';
 
 const CannyEdge = () => {
 
@@ -54,7 +54,7 @@ const CannyEdge = () => {
         const realname = `${event.target.name}`;
         const name = realname.slice(0, realname.length - 1);
 
-        handleState(name, event.target.value);
+        handleState(name, parseFloat(event.target.value));
     };
 
     const handleBlur = (event) => {
@@ -72,10 +72,13 @@ const CannyEdge = () => {
         <div>
             {Object.keys(canny).map((key, index) => {
                 return (
-                    <MySlider key={index} name={canny[key].name} value={canny[key].value}
-                        onChangeSlider={handleSlider} onChangeInput={handleInputChange}
-                        onBlur={handleBlur} max={100} color={canny[key].color} />
-                )
+                    <div>
+                        <Typography component="h2">{key.replace(/^\w/, (c) => c.toUpperCase())} Threshold</Typography>
+                        <MySlider key={index} name={canny[key].name} value={canny[key].value}
+                            onChangeSlider={handleSlider} onChangeInput={handleInputChange}
+                            onBlur={handleBlur} max={100} color={canny[key].color} />
+                    </div>
+                );
             })}
         </div>
     )

@@ -104,7 +104,7 @@ const App = () => {
             </TabPanel>
           </SideBar>
         </TabContext>
-        <OpenCvProvider onLoad={onLoaded} openCvPath='/opencv/opencv.js'>
+        <OpenCvProvider onLoad={onLoaded} >
           <Canvas>
             <canvas ref={canvasRef} />
             <input accept="image/*" onChange={(e) => setFileImg(URL.createObjectURL(e.target.files?.[0]))} id="input-gambar" type="file" />
@@ -114,7 +114,5 @@ const App = () => {
     </ThemeProvider >
   );
 };
-
-
 
 export default App;
