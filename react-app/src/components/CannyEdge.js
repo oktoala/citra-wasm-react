@@ -73,7 +73,7 @@ const CannyEdge = () => {
             {Object.keys(canny).map((key, index) => {
                 return (
                     <div>
-                        <Typography component="h2">{key.replace(/^\w/, (c) => c.toUpperCase())} Threshold</Typography>
+                        <Typography component="h2">Threshold {index+1} </Typography>
                         <MySlider key={index} name={canny[key].name} value={canny[key].value}
                             onChangeSlider={handleSlider} onChangeInput={handleInputChange}
                             onBlur={handleBlur} max={100} color={canny[key].color} />

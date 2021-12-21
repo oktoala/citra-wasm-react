@@ -8,7 +8,7 @@ const ColorSpace = () => {
     const [index, setIndex] = useState(spaceValue.index);
     
     const listFeature = [
-        'None', 'RGB2HSV', 'RGB2Lab', 'RGB2Luv'
+        'None', 'RGB2HSV', 'RGB2Lab', 'RGB2Luv', 'RGB2GRAY'
     ];
 
     function handleList(event, index, value) {

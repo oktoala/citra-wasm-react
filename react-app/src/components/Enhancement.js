@@ -4,6 +4,7 @@ import { MyAccordion, MySlider } from './MyAccordion';
 import ColorSpace from './ColorSpace';
 import { isExpanded } from '../lib/wasm';
 import CannyEdge from './CannyEdge';
+import WaterShed from './WaterShed';
 
 const Enhancement = () => {
     const [expand, setExpand] = useState(isExpanded.value);
@@ -100,6 +101,9 @@ const Enhancement = () => {
             </MyAccordion>
             <MyAccordion expand={expand} colorspace="Canny Detection" onChange={handleAccoridon('Canny Detection')}>
                 <CannyEdge/>
+            </MyAccordion>
+            <MyAccordion expand={expand} colorspace="WaterShed Segmentation" onChange={handleAccoridon('WaterShed Segmentation')}>
+                <WaterShed/>
             </MyAccordion>
         </div>
     )

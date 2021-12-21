@@ -4,7 +4,6 @@ import Tab from '@mui/material/Tab';
 import Tooltip from '@mui/material/Tooltip';
 import TabList from '@mui/lab/TabList';
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
-import FilterHdrOutlinedIcon from '@mui/icons-material/FilterHdrOutlined';
 import EqualizerOutlinedIcon from '@mui/icons-material/EqualizerOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
@@ -51,9 +50,6 @@ const Appbar = (props) => {
                 <TabList onChange={props.onChange} sx={{ flexGrow: 1, borderBottomColor: 'red' }}>
                     <Tooltip title="Enhacement" value="0">
                         <Tab label={<PaletteOutlinedIcon />} />
-                    </Tooltip>
-                    <Tooltip title="Filter" value="1">
-                        <Tab label={<FilterHdrOutlinedIcon />} />
                     </Tooltip>
                     <Tooltip title="Histogram" value="2" >
                         <Tab label={<EqualizerOutlinedIcon />} />

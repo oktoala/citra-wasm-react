@@ -185,9 +185,10 @@ export const rgbChannel = async (r, g, b) => {
 // Using CV2 Library
 export const colorSpace = async (space) => {
     const cvs = canvasValue();
-    
+
     const src = cv2.imread(cvs.canvas1);
     console.log(src);
+    bins.current = 'red';
     if (space === 'RGB2HSV') {
         cv2.cvtColor(src, src, cv2.COLOR_RGB2HSV, 0);
     } else if (space === 'RGB2Lab') {
@@ -195,9 +196,12 @@ export const colorSpace = async (space) => {
     } else if (space === 'RGB2Luv') {
         cv2.cvtColor(src, src, cv2.COLOR_RGB2Luv, 0);
     }
+    else if (space === 'RGB2GRAY') {
+        cv2.cvtColor(src, src, cv2.COLOR_RGB2GRAY, 0);
+        bins.current = 'grey';
+    }
     cv2.imshow(cvs.canvas1, src);
     src.delete();
-    bins.current = 'red';
     getPixels(cvs.canvas1, cvs.ctx);
 }
 
@@ -213,3 +217,71 @@ export const cannyEdge = async (lower, upper) => {
     getPixels(cvs.canvas1, cvs.ctx);
 }
 
+export const histogramEqualize = async () => {
+    const cvs = canvasValue();
+    const src = cv2.imread(cvs.canvas1);
+    const dst = new cv2.Mat();
+    cv2.cvtColor(src, src, cv2.COLOR_RGBA2GRAY, 0);
+    cv2.equalizeHist(src, dst);
+    cv2.imshow(cvs.canvas1, src);
+    cv2.imshow(cvs.canvas1, dst);
+    src.delete(); dst.delete();
+    bins.current = 'grey';
+    getPixels(cvs.canvas1, cvs.ctx);
+    return 'gray';
+}
+
+export const waterShed = async () => {
+    const cvs = canvasValue();
+    let src = cv2.imread(cvs.canvas1);
+    let dst = new cv2.Mat();
+    let gray = new cv2.Mat();
+    let opening = new cv2.Mat();
+    let coinsBg = new cv2.Mat();
+    let coinsFg = new cv2.Mat();
+    let distTrans = new cv2.Mat();
+    let unknown = new cv2.Mat();
+    let markers = new cv2.Mat();
+    // gray and threshold image
+    cv2.cvtColor(src, gray, cv2.COLOR_RGBA2GRAY, 0);
+    cv2.threshold(gray, gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU);
+    // get background
+    let M = cv2.Mat.ones(3, 3, cv2.CV_8U);
+    cv2.erode(gray, gray, M);
+    cv2.dilate(gray, opening, M);
+    cv2.dilate(opening, coinsBg, M, new cv2.Point(-1, -1), 3);
+    // distance transform
+    cv2.distanceTransform(opening, distTrans, cv2.DIST_L2, 5);
+    cv2.normalize(distTrans, distTrans, 1, 0, cv2.NORM_INF);
+    // get foreground
+    cv2.threshold(distTrans, coinsFg, 0.7 * 1, 255, cv2.THRESH_BINARY);
+    coinsFg.convertTo(coinsFg, cv2.CV_8U, 1, 0);
+    cv2.subtract(coinsBg, coinsFg, unknown);
+    // get connected components markers
+    cv2.connectedComponents(coinsFg, markers);
+    for (let i = 0; i < markers.rows; i++) {
+        for (let j = 0; j < markers.cols; j++) {
+            markers.intPtr(i, j)[0] = markers.ucharPtr(i, j)[0] + 1;
+            if (unknown.ucharPtr(i, j)[0] === 255) {
+                markers.intPtr(i, j)[0] = 0;
+            }
+        }
+    }
+    cv2.cvtColor(src, src, cv2.COLOR_RGBA2RGB, 0);
+    cv2.watershed(src, markers);
+    // draw barriers
+    for (let i = 0; i < markers.rows; i++) {
+        for (let j = 0; j < markers.cols; j++) {
+            if (markers.intPtr(i, j)[0] === -1) {
+                src.ucharPtr(i, j)[0] = 255; // R
+                src.ucharPtr(i, j)[1] = 0; // G
+                src.ucharPtr(i, j)[2] = 0; // B
+            }
+        }
+    }
+    cv2.imshow(cvs.canvas1, src);
+    src.delete(); dst.delete(); gray.delete(); opening.delete(); coinsBg.delete();
+    coinsFg.delete(); distTrans.delete(); unknown.delete(); markers.delete(); M.delete();
+    bins.current = 'red';
+    getPixels(cvs.canvas1, cvs.ctx);
+}

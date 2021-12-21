@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as d3 from "d3";
-import { pixel, bins } from '../lib/wasm';
+import { pixel, bins, histogramEqualize } from '../lib/wasm';
 import Input from '@mui/material/Input';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import Button from '@mui/material/Button';
 
 const Histogram = () => {
 
@@ -130,12 +131,19 @@ const Histogram = () => {
     },
         // eslint-disable-next-line
         []);
+    function equalize() {
+        histogramEqualize();
 
+        setColor([{ value: 'grey' }])
+        setData(pixel['red'].frequency);
+        setCurrentColor('grey');
+    }
     return (
         <div >
             <RadioButton key="radio" color={color} onChange={handleRadio} currentColor={currentColor} />
             <div className="svg" ref={svgref}></div>
             <Input type="number" ref={inputRef} value={inputValue} onChange={changeBin} max="256"></Input>
+            <Button onClick={equalize}>Equalize Histogram</Button>
         </div>
     );
 }
@@ -143,7 +151,7 @@ const Histogram = () => {
 const RadioButton = (props) => {
 
     return (
-        <FormControl  component="fieldset">
+        <FormControl component="fieldset">
             <FormLabel component="legend">Histogram Colour</FormLabel>
             <RadioGroup onChange={props.onChange} value={props.currentColor} row aria-label="colour" name="radio-color">
                 {props.color.map(v => {

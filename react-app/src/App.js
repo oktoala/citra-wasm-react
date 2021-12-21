@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react';
 import Appbar from "./components/Appbar";
 import SideBar from './components/SideBar';
 import Enhancement from './components/Enhancement';
-import Filter from './components/Filter';
 import Histogram from './components/Histogram';
 // Material UI
 import Box from '@mui/material/Box';
@@ -95,9 +94,6 @@ const App = () => {
           <SideBar open={mobileOpen} onClose={handleDrawerToggle} >
             <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="0">
               <Enhancement />
-            </TabPanel>
-            <TabPanel sx={{ paddingRight: '0', paddingLeft: '0' }} value="1">
-              <Filter />
             </TabPanel>
             <TabPanel sx={{ paddingRight: '0', }} value="2">
               <Histogram />
