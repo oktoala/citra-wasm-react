@@ -231,7 +231,7 @@ export const histogramEqualize = async () => {
     return 'gray';
 }
 
-export const waterShed = async () => {
+export const waterShed = async (r,g,b) => {
     const cvs = canvasValue();
     let src = cv2.imread(cvs.canvas1);
     let dst = new cv2.Mat();
@@ -273,9 +273,9 @@ export const waterShed = async () => {
     for (let i = 0; i < markers.rows; i++) {
         for (let j = 0; j < markers.cols; j++) {
             if (markers.intPtr(i, j)[0] === -1) {
-                src.ucharPtr(i, j)[0] = 255; // R
-                src.ucharPtr(i, j)[1] = 0; // G
-                src.ucharPtr(i, j)[2] = 0; // B
+                src.ucharPtr(i, j)[0] = r; // R
+                src.ucharPtr(i, j)[1] = g; // G
+                src.ucharPtr(i, j)[2] = b; // B
             }
         }
     }

@@ -72,9 +72,9 @@ const CannyEdge = () => {
         <div>
             {Object.keys(canny).map((key, index) => {
                 return (
-                    <div>
+                    <div key={`canny${index}`}>
                         <Typography component="h2">Threshold {index+1} </Typography>
-                        <MySlider key={index} name={canny[key].name} value={canny[key].value}
+                        <MySlider key={`sliderCanny ${index}`} name={canny[key].name} value={canny[key].value}
                             onChangeSlider={handleSlider} onChangeInput={handleInputChange}
                             onBlur={handleBlur} max={100} color={canny[key].color} />
                     </div>

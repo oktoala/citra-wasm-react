@@ -143,7 +143,7 @@ const Histogram = () => {
             <RadioButton key="radio" color={color} onChange={handleRadio} currentColor={currentColor} />
             <div className="svg" ref={svgref}></div>
             <Input type="number" ref={inputRef} value={inputValue} onChange={changeBin} max="256"></Input>
-            <Button onClick={equalize}>Equalize Histogram</Button>
+            <Button sx={{display: 'block', marginTop: 3}} onClick={equalize}>Equalize Histogram</Button>
         </div>
     );
 }

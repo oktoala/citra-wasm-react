@@ -11,6 +11,8 @@
     "@silvia-odwyer/photon": "^0.2.0",
     "@silvia-odwyer/photon-node": "^0.2.0",
     "d3": "^6.7.0",
+    "material-ui-color": "^1.2.0",
+    "material-ui-popup-state": "^2.0.0",
     "opencv-react": "^0.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
